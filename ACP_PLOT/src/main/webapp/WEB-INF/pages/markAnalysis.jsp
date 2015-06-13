@@ -109,7 +109,7 @@
 	          newdiv.innerHTML = "<div id='container"+chartCount+"' style='width:100%; height:600px;'></div>";
 	          document.getElementById("chartContainer").appendChild(newdiv);
 		}
-		/////////////////////////////////////////////////////
+
 		function generateUserCategoryTable(userByCategory){
 			var tableCode = "<table>";
 			for (var m in userByCategory){
@@ -130,9 +130,8 @@
 			$('#generatedTable').empty();
 		    $("#generatedTable").append(tableCode);
 		}
-	
-		///////////////////////////////////////////////////
-	
+
+		
 		function drawChart(count, seriesData) {
 			$(function() {
 				Highcharts.setOptions({
@@ -374,6 +373,45 @@
 							
 
 		}
+		
+		//Method to find the various combinations
+		function getCombinations(chars) {
+			  var result = [];
+			  var f = function(prefix, chars) {
+			    for (var i = 0; i < chars.length; i++) {
+			      result.push(prefix +' '+ chars[i]);
+			      f(prefix +' '+ chars[i], chars.slice(i + 1));
+			    }
+			  }
+			  f('', chars);
+			  return result;
+			}		
+		
+		function generateCombinations(){
+			var categoryNames = [];
+			var categoryHtml = $("#category");
+			//Find the categories and store their names in an array
+			for (var i=1; i<=categoryCounter; i++){				
+				var catg = $(categoryHtml).find('#category_'+i).find('li').find('input');
+				categoryNames[i-1]= $(catg[0]).val() ;				
+			}
+			
+			var combinations = getCombinations(categoryNames);
+			
+			/////
+			var tbodycatg="";
+			for (var i =0; i<combinations.length;i++ ){
+				tbodycatg = tbodycatg +"'<tr> "+ 
+									"<td><input type='text' value ='"+combinations[i] +"' /></td> "+
+									"<td><input type='text' /></td> "+
+									"<td><input type='text' /></td> "+
+									"</tr> '";
+			}			
+			// Append the generated combinations to the tbody
+			$('#generatedComb')
+            .empty()
+            .append(tbodycatg);
+		}
 	</script>
 
 	<div id='topnav'>
@@ -492,9 +530,27 @@
 								<input type="image" src="images/add.png" alt="Add" onClick="addCategory('category');" style="height: 12px; width: 55px;">
 							</td>
 						</tr>
-						</table>
-						
+						</table>						
 					</div>
+					
+					<div id ="combinationTable">
+						<table id="studentTable" class="table">
+					        <thead style="background-color: #eee">
+					            <tr>
+					                <td style="font-weight: bold">Category</td>
+					                <td style="font-weight: bold">Color</td>
+					                <td style="font-weight: bold">Symbol</td>
+					            </tr>
+					        </thead>
+					        <tbody id="generatedComb"></tbody>					        
+					    </table>
+					</div>
+										
+					<li class="buttons"><input type="hidden" name="form_id"
+						value="1002989" /> <input id="generateComb" class="button_text"
+						type="submit" name="submit" value="Generate Combinations" onclick="generateCombinations()" />
+					</li>	
+					
 					
 					<li id="li_4"><label class="description" for="element_4">Enter names of two Tests/Assignments for comparision with Usage
 					</label>
