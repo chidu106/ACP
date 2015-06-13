@@ -309,14 +309,27 @@
 		     }
 			newdiv.id = divName+"time_"+timeCount;
 			newdiv.innerHTML = "<li id='li_"+newdiv.id+"'>"+
+									"<table>"+
+									"<tr>"+
+									"<td style='border:0px'>"+
 									"<label class='description' for='element_"+newdiv.id+"_start'>Start Time "+timeCount+" </label> "+ 
+									"</td>"+
+									"<td style='border:0px'>"+
+									"<label class='description' for='element_"+newdiv.id+"_end'>End Time "+timeCount+" </label>"+
+									"</td></tr>"+
+									"<tr>"+
+									"<td style='border:0px'>"+
 									"<span> <input id='element_"+newdiv.id+"_start' class='datetimepicker'"+
 										"name='element_"+newdiv.id+"_start' class='element text' value='' type='text'>"+
 									"</span> "+
-									"<label class='description' for='element_"+newdiv.id+"_end'>End Time "+timeCount+" </label>"+ 
+									"</td>"+
+									"<td style='border:0px'>"+
 									"<span> <input id='element_"+newdiv.id+"_end' class='datetimepicker'"+
 										"name='element_"+newdiv.id+"_end' class='element text' value='' type='text'>"+
 									"</span>"+
+									"</td></tr>"+
+									"<tr>"+
+									"</table>"+
 								"</li>";
 								
 								document.getElementById(divName).appendChild(newdiv);
@@ -345,7 +358,16 @@
 								"</div>"+
 							 "</li>"+
 							 // Plus sign on click on which new time input fields will be displayed
-							"<div class='ui-icon ui-icon-plus addRow' onClick='addTime(\""+newid+"\");' >Time+</div>";
+// 							"<div class='ui-icon ui-icon-plus addRow' onClick='addTime(\""+newid+"\");' >Time+</div>";
+							"<div class='ui-icon ui-icon-plus addRow' >"+
+							"<table >"+
+							"<tr><td style='border:0px'>Time</td>"+
+								"<td style='border:0px'>"+
+									"<input type='image' src='images/add.png' alt='Add' onClick='addTime(\""+newid+"\");' style='height: 12px; width: 55px;'>"+
+								"</td>"+
+							"</tr>"+
+							"</table>"+
+							"</div>";
 					
 							document.getElementById(divName).appendChild(newdiv);
 							var temp = $("#"+newdiv.id).wrap( "<fieldset></fieldset>" );
@@ -461,8 +483,18 @@
 					<div id = 'category'>			
 					
 					</div>
-					</fieldset>					
-					<div id="categoryAdd" class="ui-icon ui-icon-plus addRow" onClick="addCategory('category');" >Add category +</div>
+					</fieldset>		
+								
+					<div id="categoryAdd" class="ui-icon ui-icon-plus addRow"  >
+						<table >
+						<tr><td style="border:0px">Add Category</td>
+							<td style="border:0px">
+								<input type="image" src="images/add.png" alt="Add" onClick="addCategory('category');" style="height: 12px; width: 55px;">
+							</td>
+						</tr>
+						</table>
+						
+					</div>
 					
 					<li id="li_4"><label class="description" for="element_4">Enter names of two Tests/Assignments for comparision with Usage
 					</label>
