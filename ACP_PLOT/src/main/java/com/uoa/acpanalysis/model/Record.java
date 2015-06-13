@@ -26,4 +26,7 @@ public class Record {
 		this.version = version;
 		this.date = date;
 	}
+	public Record(){
+		
+	}
 }

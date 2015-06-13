@@ -254,3 +254,7 @@
     text-align: left;    
 }
 
+#studTable {
+display : none;	
+}
+

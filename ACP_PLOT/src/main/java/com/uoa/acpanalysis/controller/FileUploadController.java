@@ -40,9 +40,7 @@ public class FileUploadController {
 	
 	@RequestMapping(value="/uploadFile",method = RequestMethod.GET)
 	public String getUploadPage(ModelMap model) {
-
 		return "uploadMultiple";
-
 	}
  
     /**

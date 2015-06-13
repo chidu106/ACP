@@ -22,6 +22,8 @@ public class SessionBean implements Serializable {
 
 	private List<Record> records = new ArrayList<Record>();
 	
+	private List<Record> filteredRecords = new ArrayList<Record>();
+	
 	/*
 	 * Lecture Start times for the course
 	 */
@@ -74,6 +76,14 @@ public class SessionBean implements Serializable {
 
 	public void setUsers(Map<String, User> users) {
 		this.users = users;
+	}
+
+	public List<Record> getFilteredRecords() {
+		return filteredRecords;
+	}
+
+	public void setFilteredRecords(List<Record> filteredRecords) {
+		this.filteredRecords = filteredRecords;
 	}
 
 }
