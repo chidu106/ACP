@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="css/bootstrap-theme.css" />
     <link href="css/bootstrap-multiselect.css" rel="stylesheet" />
     
-       <link rel="stylesheet" href="css/styles.css"/>
+       <!-- <link rel="stylesheet" href="css/styles.css"/>
    <link rel="stylesheet" type="text/css" media="screen,projection" href="css/view_form1.css" />
-   <link rel="stylesheet" href="css/colpick.css">
+   <link rel="stylesheet" href="css/colpick.css"> -->
 	<script src="script/jquery-2.1.4.js"></script>
 	<script type="text/javascript" src="script/jquery.simple-dtpicker.js"></script>
 	<link type="text/css" href="css/jquery.simple-dtpicker.css" rel="stylesheet" />
@@ -46,8 +46,8 @@
             </tr>
         </tfoot>
     </table>
-    
-    <div  id ="lectureTimes" class="ui-icon ui-icon-plus addRow" onClick="addTime('lectureTimes');" >Add Lecture Time +</div>;
+    <div  id ="lectureTimes" ></div>;
+    <div  id ="lectureTimeAdd" class="ui-icon ui-icon-plus addRow" onClick="addTime('lectureTimes');" >Add Lecture Time +</div>;
     
     
 </div>
