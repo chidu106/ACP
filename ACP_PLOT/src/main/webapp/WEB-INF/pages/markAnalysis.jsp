@@ -394,7 +394,8 @@
 			var newdiv = document.createElement('div');
 			newdiv.id="category_"+categoryCounter;
 			var newid = newdiv.id;
-			newdiv.innerHTML ="<label class='description'>Category "+categoryCounter+" </label>"+
+			newdiv.innerHTML ="<legend style=' padding: 0.2em 0.5em; border:1px solid green; color:white; font-size:90%;'><b>Category "+categoryCounter+" </b></legend>"+
+// 			"<label class='description'>Category "+categoryCounter+" </label>"+
 							"<li id='li_catg"+categoryCounter+"_1'><label class='description' for='element_catg"+categoryCounter+"_1'>Category Name</label>"+
 								"<div>"+
 									"<input id='element_catg"+categoryCounter+"_1' name='element_catg"+categoryCounter+"_1' class='element text medium' type='text' maxlength='255' value='' />"+
@@ -414,16 +415,17 @@
 // 							"<div class='ui-icon ui-icon-plus addRow' onClick='addTime(\""+newid+"\");' >Time+</div>";
 							"<div class='ui-icon ui-icon-plus addRow' >"+
 							"<table >"+
-							"<tr><td style='border:0px'>Time</td>"+
+							"<tr>"+
 								"<td style='border:0px'>"+
-									"<input type='image' src='images/add.png' alt='Add' onClick='addTime(\""+newid+"\");' style='height: 12px; width: 55px;'>"+
+								"<button style='width:120px; height:30px; border:0px; background-size:cover; background-image:url(\"images/add_time.png\");' onClick='addTime(\""+newid+"\");'></button>"+
+// 									"<input type='image' src='images/add.png' alt='Add' onClick='addTime(\""+newid+"\");' style='height: 20px; width: 60px;'>"+
 								"</td>"+
 							"</tr>"+
 							"</table>"+
 							"</div>";
 					
 							document.getElementById(divName).appendChild(newdiv);
-							var temp = $("#"+newdiv.id).wrap( "<fieldset></fieldset>" );
+							var temp = $("#"+newdiv.id).wrap( "<fieldset style=' border:1px solid #1F497D '></fieldset>" );
 							
 
 		}
@@ -606,7 +608,7 @@
 							</span> 
 						</li>				
 					</div>
-					</fieldset>	
+						
 					<script>
 					$( document ).ready(function() {
 					$('input[name=element_4]').change(function() {
@@ -633,14 +635,16 @@
 								
 					<div id="categoryAdd" class="ui-icon ui-icon-plus addRow"  >
 						<table >
-						<tr><td style="border:0px">Add Category</td>
+						<tr>
 							<td style="border:0px">
-								<input type="image" src="images/add.png" alt="Add" onClick="addCategory('category');" style="height: 12px; width: 55px;">
+								<button style="width:120px;height:30px;border:0px;background-size: cover;background-image: url('images/add_category.png');" onClick="addCategory('category');">
+								</button>
+<!-- 								<input type="image" src="images/add.png" alt="Add" onClick="addCategory('category');" style="height: 20px; width: 60px;"> -->
 							</td>
 						</tr>
 						</table>						
 					</div>
-					
+					</fieldset>
 					<div id ="combinationTable">
 						<table id="combiTable" class="table">
 					        <thead style="background-color: #eee">
