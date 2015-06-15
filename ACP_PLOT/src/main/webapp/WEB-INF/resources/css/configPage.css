@@ -27,17 +27,35 @@
 	border: medium;
 	border-style: outset;
 	padding: 5px;
-	
+	color: black;
+	background-color: #c0c0c0;
 }
 
 #studTable{
 	width:70%;
+	max-height:50%;
 	margin-left:15%;
 	margin-top: 1%;
+	overflow-x:auto;
 }
 
 #studentTable{
 	margin-top: 2%;
-		
+}
+
+#lectureTimes{
+	margin-top: 2%;
+	margin-left:15%;
+}
+
+#lectureTimeAdd{
+/* 	margin-top: 2%; */
+	margin-left:15%;
+	padding: 5px;
+}
+
+ul,li
+{
+list-style-type: none;
 }
 

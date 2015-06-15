@@ -44,26 +44,36 @@
         </thead>
         <tbody id="filteredStudents"></tbody>
         <tbody id="extraStudents"></tbody>
-        <tfoot>
-            <tr>
-            	<td><a id="addUser" href="javascript:void(0);">Add User</a></td>
-            </tr>
-        </tfoot>
+<!--         <tfoot> -->
+<!--             <tr> -->
+<!--             	<td><a id="addUser" href="javascript:void(0);">Add User</a></td> -->
+<!--             </tr> -->
+<!--         </tfoot> -->
     </table>
+    <br>
+	    <div >
+	        <a id="addUser" href="javascript:void(0);">Add User</a>
+	    </div>
+	    
+	</div>
+	   
     <div  id ="lectureTimes" ></div>
 <!--     <div  id ="lectureTimeAdd" class="ui-icon ui-icon-plus addRow" onClick="addTime('lectureTimes');" >Add Lecture Time +</div>; -->
     <div id="lectureTimeAdd" class="ui-icon ui-icon-plus addRow"  >
 						<table >
-						<tr><td style="border:0px;padding: 5px;" >Add Lecture Time</td>
-							<td style="border:0px;padding: 5px;" >
-								<input type="image" src="images/add.png" alt="Add" onClick="addTime('lectureTimes');" style="height: 12px; width: 55px;">
+						<tr>
+<!-- 							<td style="border:0px;padding: 5px;" >Add Lecture Time</td> -->
+							<td style="border:0px;" >
+								<button style="width:120px;height:30px;border:0px;background-size: cover;background-image: url('images/add_lecture_time.png');" onClick="addTime('lectureTimes');">
+<!-- 								<input type="image" src="images/add.png" alt="Add" onClick="addTime('lectureTimes');" style="height: 12px; width: 55px;"> -->
 							</td>
+							
 						</tr>
 						</table>
 	</div>
     
     
-</div>
+
 
     <script src="script/bootstrap.js"></script>
     <script src="script/bootstrap-multiselect.js"></script>
