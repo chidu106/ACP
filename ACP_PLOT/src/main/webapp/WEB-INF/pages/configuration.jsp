@@ -56,8 +56,11 @@
 	    </div>
 	    
 	</div>
-	   
+	
+	<fieldset id="fieldsetId"> 
+	<span><p>Add the lecture times of this course.</p></span>  
     <div  id ="lectureTimes" ></div>
+    </fieldset>
 <!--     <div  id ="lectureTimeAdd" class="ui-icon ui-icon-plus addRow" onClick="addTime('lectureTimes');" >Add Lecture Time +</div>; -->
 	<div id="lectureTimeAdd" class="ui-icon ui-icon-plus addRow">
 		<table>

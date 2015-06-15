@@ -291,10 +291,23 @@
 
 	<div id='topnav'>
 		<ul>
-		   <li class='active'><a href='#'><span>Home</span></a></li>
-		   <li><a href='#'><span>File Upload</span></a></li>
-		   <li><a href='#'><span>Plot Configuration</span></a></li>
-		   <li class='last'><a href='#'><span>Contact</span></a></li>
+		  <li class='active'><a href='#'><span>Home</span></a></li>
+		  <li><a href='#'><span>File Upload</span></a></li>
+		  <li><a href='#'><span>Plot Configuration</span></a></li>
+		  <li ><a href='#'><span>Contact</span></a></li>
+		  <li class='last'><a href="javascript:formSubmit()"><span>Logout</span></a></li>
+	
+		  <c:url value="/logout" var="logoutUrl" />
+		<form action="${logoutUrl}" method="post" id="logoutForm">
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+	</form>
+	<script>
+		function formSubmit() {
+			document.getElementById("logoutForm").submit();
+		}
+	</script>
+		  
 		</ul>
 	</div>
 

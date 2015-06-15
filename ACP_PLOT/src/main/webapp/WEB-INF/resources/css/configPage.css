@@ -14,7 +14,7 @@
 	
 }
 
-#csvUpload{
+#csvUpload, #fieldsetId {
 	border:thin;
 	border-style:inset;
 	margin-left: 15%;
