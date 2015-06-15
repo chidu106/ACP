@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/bootstrap-theme.css" />
     <link href="css/bootstrap-multiselect.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/configPage.css"/>
+    <link rel="stylesheet" href="css/configPage.css"/> 
     
        <!-- <link rel="stylesheet" href="css/styles.css"/>
    <link rel="stylesheet" type="text/css" media="screen,projection" href="css/view_form1.css" />
