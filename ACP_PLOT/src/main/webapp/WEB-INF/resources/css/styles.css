@@ -258,3 +258,32 @@
 display : none;	
 }
 
+/*Mark Analysis Page  */
+#defaultcategoryDiv ul li input.medium {
+	width: 100%;
+}
+#defaultcategoryDiv ul li label {
+border: medium none;
+   color: #222;
+   display: block;
+   font-size: 95%;
+   font-weight: 700;
+   line-height: 150%;
+   padding: 0 0 1px;
+}
+
+
+
+
+fieldset {
+	border: 1px solid #1F497D;
+	border-radius: 5px;
+}
+
+fieldset legend {
+    padding: 5px ;
+    border-radius: 5px;
+    background-color: #fa543d;
+    
+}
+

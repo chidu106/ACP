@@ -61,17 +61,24 @@ public class MarkAnalysisPlotController {
     public @ResponseBody HashMap  addUser(@RequestBody markAnalysis markAnalysis) throws ParseException{
         @SuppressWarnings("rawtypes") 
 		HashMap model = new HashMap();
-         
-        //Converting the date values from String to a Date type and setting it in marAnalaysis obj itself
-        for (int i=0; i<markAnalysis.getCategories().size();i++ ) {
-        		markAnalysis.getCategories().get(i).setStartTimesDate(Utilities.getDate(markAnalysis.getCategories().get(i).getStartTimes()));
-        		markAnalysis.getCategories().get(i).setEndTimesDate(Utilities.getDate(markAnalysis.getCategories().get(i).getEndTimes()));
-        }
-
-        	
+        
         // TODO Remove Or modifiy acc to....
         //Once logic for a radio button with lecture timings is ready..
         setLectureTimes();
+        
+        //Converting the date values from String to a Date type and setting it in marAnalaysis obj itself
+        for (int i=0; i<markAnalysis.getCategories().size();i++ ) {
+        	if (!markAnalysis.getCategories().get(i).getCategoryName().equalsIgnoreCase("Lecture Time")) {
+        		markAnalysis.getCategories().get(i).setStartTimesDate(Utilities.getDate(markAnalysis.getCategories().get(i).getStartTimes()));
+        		markAnalysis.getCategories().get(i).setEndTimesDate(Utilities.getDate(markAnalysis.getCategories().get(i).getEndTimes()));
+        	} else {
+        		markAnalysis.getCategories().get(i).setStartTimesDate(se701startTimes);
+        		markAnalysis.getCategories().get(i).setEndTimesDate(se701endTimes);
+        	}
+        }
+
+       /* 	
+
        GroupingCategory catg1 = new GroupingCategory();
        catg1.setStartTimesDate(se701startTimes);
        catg1.setEndTimesDate(se701endTimes); 
@@ -80,14 +87,14 @@ public class MarkAnalysisPlotController {
        catg1.setPercentageValue(10);
        markAnalysis.getCategories().add(catg1); 
        
-/*       GroupingCategory catg2 = new GroupingCategory();
+       GroupingCategory catg2 = new GroupingCategory();
        catg2.setStartTimesDate(ownStartTimes);
        catg2.setEndTimesDate(ownEndTimes); 
        catg2.setCategoryName("OwnTime");
        catg2.setThreshold(20);
        catg2.setPercentageValue(25);
-       markAnalysis.getCategories().add(catg2); */
-       
+       markAnalysis.getCategories().add(catg2); 
+       */
         /*if(!result.hasErrors()){
             //userList.add(user);
             returnText = "User has been added to the list. Total number of users are "  ;//userList.size();
@@ -112,8 +119,14 @@ public class MarkAnalysisPlotController {
 			List<Series> seriesList = new ArrayList<Series>();
 			for (Map.Entry<String, List<User>> entry : userByCategory.entrySet())
 			{	
-				Series series = new Series();
-				series.name = entry.getKey().replace('+', ' ');
+				Series series = new Series();	
+				series.name = entry.getKey().replace('+', ' ').trim();
+				
+				if(markAnalysis.getCategoryColorCodes().containsKey(series.name)){
+					series.color = "#"+(String) markAnalysis.getCategoryColorCodes().get(series.name).get(0);
+					series.marker.put("symbol", markAnalysis.getCategoryColorCodes().get(series.name).get(1));
+				}
+				
 				List<User> userList = (List<User>)entry.getValue();
 				for(User user : userList){
 				    Float usageMark[] =  new Float[2];
