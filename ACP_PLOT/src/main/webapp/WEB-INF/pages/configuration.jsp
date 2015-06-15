@@ -58,6 +58,7 @@
 	</div>
 	
 	<fieldset id="fieldsetId"> 
+	<legend style=' padding: 0.2em 0.5em; border:1px solid green; color:white; font-size:90%;'><b>Category "+categoryCounter+" </b></legend>
 	<span><p>Add the lecture times of this course.</p></span>  
     <div  id ="lectureTimes" ></div>
     </fieldset>
@@ -65,12 +66,10 @@
 	<div id="lectureTimeAdd" class="ui-icon ui-icon-plus addRow">
 		<table>
 			<tr>
-				<!-- 							<td style="border:0px;padding: 5px;" >Add Lecture Time</td> -->
 				<td style="border: 0px;">
 					<button
 						style="width: 120px; height: 30px; border: 0px; background-size: cover; background-image: url('images/add_lecture_time.png');"
 						onClick="addTime('lectureTimes');">
-						<!-- 								<input type="image" src="images/add.png" alt="Add" onClick="addTime('lectureTimes');" style="height: 12px; width: 55px;"> -->
 				</td>
 
 			</tr>

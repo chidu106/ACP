@@ -271,6 +271,9 @@ border: medium none;
    line-height: 150%;
    padding: 0 0 1px;
 }
+#combinationTable{
+	display : none;	
+}
 
 
 

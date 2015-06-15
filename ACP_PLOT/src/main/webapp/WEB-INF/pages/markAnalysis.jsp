@@ -470,6 +470,7 @@
             .empty()
             .append(tbodycatg);
 			showColorPick();
+			$('#combinationTable').show();
 		}
 	</script>
 
@@ -610,6 +611,9 @@
 						</table>						
 					</div>
 					</fieldset>
+					
+					<div><p>After adding the categories click on Generate Combinations to generate the various combinations of categories & enter the corresponding configuration. </p></div>
+					
 					<div id ="combinationTable">
 						<table id="combiTable" class="table">
 					        <thead style="background-color: #eee">
