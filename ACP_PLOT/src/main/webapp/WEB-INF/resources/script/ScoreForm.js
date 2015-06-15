@@ -1,4 +1,6 @@
-﻿var list;
+﻿var tempSelectedRecords;
+var list;
+$( document ).ready(function() {
 $.ajax({
 	type : "POST",
 	url : "/SpringMVC/configuration",	
@@ -6,10 +8,14 @@ $.ajax({
 		// we have the response
 		
 		list = response.records;
+		
+		//Call the function to populate the dropdowns
+		populateDropdowns();		
 	},
 	error : function(e) {
 		alert('Error: ' + e);
 	}
+});
 });
 
 Array.prototype.unique = function() {
@@ -128,13 +134,14 @@ $(function() {
             var selectedUniversities = iif($('#universitySelect').val(), []);
             var selectedUsernames = iif($('#usernameSelect').val(), []);
             var selectedProjects = iif($('#projectSelect').val(), []);
-
-            var selectedRecords = list
-                .filter(function(item) {
-                    return selectedUniversities.indexOf(item.univ) > -1
-                        && selectedUsernames.indexOf(item.user) > -1
-                        && selectedProjects.indexOf(item.projectName) > -1;
-                })
+            
+            tempSelectedRecords = list
+            .filter(function(item) {
+                return selectedUniversities.indexOf(item.univ) > -1
+                    && selectedUsernames.indexOf(item.user) > -1
+                    && selectedProjects.indexOf(item.projectName) > -1;
+            });
+            var selectedRecords = tempSelectedRecords
                 .map(function(item) {
                     return item.user;
                 })
@@ -170,14 +177,45 @@ $(function() {
                 .children()
                 .append('<td/>');
         })
-        .click();
+        .click();    
+});
 
-    var universities = list.map(function(item) {
+function populateDropdowns(){
+	var universities = list.map(function(item) {
         return item.univ;
     }).unique();
 
     populateSelect($('#universitySelect'), universities);
-});
+}
+
+function submitFilteredData() {
+	
+	var recordWrapper = new Object();
+	recordWrapper.item = "hello";
+	recordWrapper.filteredList = tempSelectedRecords;	
+	//Submit the filtered list to server		
+	$.ajax({
+		type : "POST",
+		url : "/SpringMVC/configuration/filteredRecords",
+	      contentType : 'application/json; charset=utf-8',
+	      dataType : 'json',
+	      data : JSON.stringify(recordWrapper),
+		success : function(response) {
+			// we have the response		
+			var resp = response;
+			//Disabling the select dropdowns and Submit button
+			//Not working!!
+			 $('#universitySelect').find('select').attr('disabled', 'disabled');
+			 $('#usernameSelect').find('select').attr('disabled', 'disabled');
+			 $('#projectSelect').find('select').attr('disabled', 'disabled');
+			 $('#submitFilteredData :input').prop('disabled', 'disabled');			 
+			 $('#studTable').show();
+		},
+		error : function(e) {
+			alert('Error: ' + e);
+		}
+	});
+}
 
 function getScores() {
     return $('#studentTable')
@@ -198,4 +236,27 @@ function getScores() {
                     return $(value).children().val();
                 });
         });
+}
+function showTime() {
+	$('.datetimepicker').appendDtpicker({
+        'dateFormat' : 'YYYY/MM/DD hh:mm'
+		});
+	}
+function addTime(divName){
+	var newdiv = document.createElement('div');
+	var timeCount = $("#"+divName).find("div").length;
+	
+	newdiv.id = divName+"time_"+timeCount;
+	newdiv.innerHTML = "<li id='li_"+newdiv.id+"'>"+
+							"<label class='description' for='element_"+newdiv.id+"_start'>Start Time "+timeCount+" </label> "+ 
+							"<span> <input id='element_"+newdiv.id+"_start' class='datetimepicker'"+
+								"name='element_"+newdiv.id+"_start' class='element text' value='' type='text'>"+
+							"</span> "+
+							"<label class='description' for='element_"+newdiv.id+"_end'>End Time "+timeCount+" </label>"+ 
+							"<span> <input id='element_"+newdiv.id+"_end' class='datetimepicker'"+
+								"name='element_"+newdiv.id+"_end' class='element text' value='' type='text'>"+
+							"</span>"+
+						"</li>";						
+						document.getElementById(divName).appendChild(newdiv);
+						showTime();		
 }

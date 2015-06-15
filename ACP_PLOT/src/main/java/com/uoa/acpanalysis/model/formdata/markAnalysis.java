@@ -1,10 +1,9 @@
 package com.uoa.acpanalysis.model.formdata;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
+@SuppressWarnings({ "rawtypes" })
 public class markAnalysis {
 	
 	private String title;
@@ -17,6 +16,17 @@ public class markAnalysis {
 	
 	private String test2NameForComparision;
 	
+
+	private HashMap<String, ArrayList> categoryColorCodes = new HashMap<String, ArrayList>();
+
+	public HashMap<String, ArrayList> getCategoryColorCodes() {
+		return categoryColorCodes;
+	}
+
+	public void setCategoryColorCodes(HashMap<String, ArrayList> categoryColorCodes) {
+		this.categoryColorCodes = categoryColorCodes;
+	}
+
 	/*
 	 * Categorization start time
 	 */

@@ -4,14 +4,14 @@
    <meta charset='utf-8'>
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="stylesheet" href="css/styles.css"/>
    <link rel="stylesheet" type="text/css" media="screen,projection" href="css/view_form1.css" />
+   <link rel="stylesheet" href="css/styles.css"/>
    <link rel="stylesheet" href="css/colpick.css">
 	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="script/jquery.simple-dtpicker.js"></script>
 	<link type="text/css" href="css/jquery.simple-dtpicker.css" rel="stylesheet" />
 	<script src="script/colpick.js"></script>
-   <script src="script/script.js"></script>
+   	<script src="script/script.js"></script>
  
    <script src="http://code.highcharts.com/highcharts.js"></script>
    <script src="http://code.highcharts.com/highcharts-more.js"></script>
@@ -29,6 +29,7 @@
 	var numberOfMarks;	
 	var improvementSeriesList;
 	var userByCategory;
+	 var selected;
 	
 	//Colour Picker
 		
@@ -44,9 +45,9 @@
 			wrapperObj.xAxisText = xAxisText;
 			wrapperObj.yAxisText = yAxisText;
 			wrapperObj.categories = [];
-			//
-			var categoryHtml = $("#category");
 			
+			//Retreive the category details and set it in wrapperObj
+			var categoryHtml = $("#category");			
 			for (var i=1; i<=categoryCounter; i++){
 				var temp4 = $(categoryHtml).find('#category_'+i);
 				
@@ -72,6 +73,23 @@
 				}
 				wrapperObj.categories.push(GroupingCategory);
 			}
+			
+			//If Default category is enabled fetch its values and add it to wrapperObj.categories			 
+			  $('input[name=element_4]').click(function() {
+				  selected = $(this).val();
+				});
+			  if(selected == '1'){
+			      var inputs = $('#defaultcategory :input');
+			      var GroupingCategory = new Object();
+					GroupingCategory.categoryName =$(inputs[0]).val() ;
+					GroupingCategory.threshold =$(inputs[1]).val() ;
+					GroupingCategory.percentageValue =$(inputs[2]).val() ;
+					wrapperObj.categories.push(GroupingCategory);
+			  } 
+								
+			//Retreive the various grouping category combinations and set them in wrapperObj
+			var categoryColorCodes = getCategoryCombinations();
+			wrapperObj.categoryColorCodes = categoryColorCodes;
 				
 			$.ajax({
 				type : "POST",
@@ -103,13 +121,49 @@
 				}
 			});
 		}
+				
+		function getCategoryCombinations() {
+		   var allRows = $('#generatedComb');
+		   var catgCombiMap = new Object();
+		   var allRowsTr = $(allRows).children('tr');
+		   for (var i=0; i<allRowsTr.length;i++ ){
+			   var inputFields = $(allRowsTr[i]).find('input');
+			   var valueArray=[];
+			   valueArray[0] = $(inputFields[1]).val() ;
+			   valueArray[1] = $(inputFields[2]).val() ;
+			   var key = $(inputFields[0]).val();
+			   catgCombiMap[key] = valueArray;			   
+		   }
+		   return catgCombiMap;
+		}
+		
+		function getCategoryCombinationsTemp() {
+		    return $('#combiTable')
+		        .children('tbody')
+		        .children('tr')
+		        .get()
+		        .map(function(tr) {
+		            return $(tr)
+		                .children('td')
+		                .get()
+		                .map(function(value, index) {
+		                    if (!index) {
+		                        var username = $(value).text();
+		                        if (username) {
+		                            return username;
+		                        }
+		                    }
+		                    return $(value).children().val();
+		                });
+		        });
+		}
 		
 		function addContainer(chartCount) {
 			var newdiv = document.createElement('div');
 	          newdiv.innerHTML = "<div id='container"+chartCount+"' style='width:100%; height:600px;'></div>";
 	          document.getElementById("chartContainer").appendChild(newdiv);
 		}
-		/////////////////////////////////////////////////////
+
 		function generateUserCategoryTable(userByCategory){
 			var tableCode = "<table>";
 			for (var m in userByCategory){
@@ -130,9 +184,8 @@
 			$('#generatedTable').empty();
 		    $("#generatedTable").append(tableCode);
 		}
-	
-		///////////////////////////////////////////////////
-	
+
+		
 		function drawChart(count, seriesData) {
 			$(function() {
 				Highcharts.setOptions({
@@ -374,6 +427,48 @@
 							
 
 		}
+		
+		//Method to find the various combinations
+		function getCombinations(chars) {
+			  var result = [];
+			  var f = function(prefix, chars) {
+			    for (var i = 0; i < chars.length; i++) {
+			      result.push(prefix +' '+ chars[i]);
+			      f(prefix +' '+ chars[i], chars.slice(i + 1));
+			    }
+			  }
+			  f('', chars);
+			  return result;
+			}		
+		
+		function generateCombinations(){
+			var categoryNames = [];
+			var categoryHtml = $("#category");
+			//Find the categories and store their names in an array
+			for (var i=1; i<=categoryCounter; i++){				
+				var catg = $(categoryHtml).find('#category_'+i).find('li').find('input');
+				var name= $(catg[0]).val() ;
+				categoryNames[i-1] = $.trim(name);
+			}
+			
+			var combinations = getCombinations(categoryNames);
+			
+			/////
+			var tbodycatg="";
+			for (var i =0; i<combinations.length;i++ ){
+				tbodycatg = tbodycatg +"'<tr> "+ 
+									"<td><input type='text' value ='"+combinations[i] +"' /></td> "+
+									"<td><input class='picker' type='text' value='e2f71e'/></td> "+
+									"<td><input type='text' /></td> "+
+									"</tr> '";
+			}	
+			
+			// Append the generated combinations to the tbody
+			$('#generatedComb')
+            .empty()
+            .append(tbodycatg);
+			showColorPick();
+		}
 	</script>
 
 	<div id='topnav'>
@@ -480,10 +575,61 @@
 					</div>
 					
 					<fieldset>
-					<div id = 'category'>			
-					
+					<div id = 'category'>	
+						<li id="li_4" >
+						<label class="description" for="element_8">Default Category : Lecture Hours</label>
+						<span>Select Yes if you want all lecture hours combined as one category </span>
+							<span>
+								<input id="element_4_1" name="element_4" class="element radio" type="radio" value="1" />
+								<label class="choice" for="element_4_1">Yes</label>
+								<div id ="defaultcategoryDiv">	
+									<ul id = "defaultcategory">							  	
+										<li id='li_catgdefault_1'><label class='description' for='element_catgdefault_1'>Category Name</label>
+											<div>
+												<input id='element_catgdefault_1' name='element_catgdefault_1' class='element text medium' type='text' maxlength='255' value='Lecture Time'  disabled/>
+											</div>
+										 </li>
+										 <li id='li_catgdefault_2'><label class='description' for='element_catgdefault_2'>Minimum Threshold</label>
+											<div>
+												<input id='element_catgdefault_2' name='element_catgdefault_2' class='element text medium' type='text' maxlength='255' value='15' />
+											</div>
+										 </li>
+										 <li id='li_catgdefault_3'><label class='description' for='element_catgdefault_3'>Threshold %(of Total usage)</label>
+											<div>
+												<input id='element_catgdefault_3' name='element_catgdefault_3' class='element text medium' type='text' maxlength='255' value='20' />
+											</div>
+										 </li>
+										 </ul>
+								</div>
+								<input id="element_4_2" name="element_4" class="element radio" type="radio" value="2" checked="checked" />
+								<label class="choice" for="element_4_2">No</label>
+							</span> 
+						</li>				
 					</div>
-					</fieldset>		
+					</fieldset>	
+					<script>
+					$( document ).ready(function() {
+					$('input[name=element_4]').change(function() {
+						  var selected = $(this).val();console.log(selected);
+						  if(selected == '1'){
+						      $('#defaultcategory').show();
+						  } else {
+						      $('#defaultcategory').hide();
+						  }
+						});
+					//Setting the default checked value for radio button
+					var radioObj = $('input[name=element_4]');
+					radioObj.filter('[value=2]').prop('checked', true);
+					
+					 var selected = $('input[name=element_4]:checked').val();
+					  if(selected == '1'){
+					      $('#defaultcategory').show();
+					  } else {
+					      $('#defaultcategory').hide();
+					  }	
+					});
+								
+					</script>
 								
 					<div id="categoryAdd" class="ui-icon ui-icon-plus addRow"  >
 						<table >
@@ -492,9 +638,27 @@
 								<input type="image" src="images/add.png" alt="Add" onClick="addCategory('category');" style="height: 12px; width: 55px;">
 							</td>
 						</tr>
-						</table>
-						
+						</table>						
 					</div>
+					
+					<div id ="combinationTable">
+						<table id="combiTable" class="table">
+					        <thead style="background-color: #eee">
+					            <tr>
+					                <td style="font-weight: bold">Category</td>
+					                <td style="font-weight: bold">Color</td>
+					                <td style="font-weight: bold">Symbol</td>
+					            </tr>
+					        </thead>
+					        <tbody id="generatedComb"></tbody>					        
+					    </table>
+					</div>
+										
+					<li class="buttons"><input type="hidden" name="form_id"
+						value="1002989" /> <input id="generateComb" class="button_text"
+						type="submit" name="submit" value="Generate Combinations" onclick="generateCombinations()" />
+					</li>	
+					
 					
 					<li id="li_4"><label class="description" for="element_4">Enter names of two Tests/Assignments for comparision with Usage
 					</label>
