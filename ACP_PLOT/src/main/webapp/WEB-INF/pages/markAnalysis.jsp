@@ -472,6 +472,7 @@
 			showColorPick();
 		}
 	</script>
+<img alt="header" src="images/header.png" style="margin-left: 10%; background-size:cover; width:80%;height: 90px;border: 0px;">
 
 	<div id='topnav'>
 		<ul>
@@ -482,8 +483,7 @@
 		</ul>
 	</div>
 
-<br><br><br><br>
-<div id='leftandcontent'>
+<div id='leftandcontent' style="margin-left: 10%" >
 <div id='leftnav'>
 <ul>
    <li class='active'><a href='#'><span>Home</span></a></li>
@@ -510,8 +510,7 @@
 </ul>
 </div>
 
-
-<div id="formchart">
+<div id="formchart" >
 <div id='content'>
 	<!-- Form section -->
 
@@ -697,5 +696,8 @@
 </div>
 </div>
 </div>
+
+<br><br><br><br>
+
 </body>
 </html>
