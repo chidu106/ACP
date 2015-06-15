@@ -274,3 +274,15 @@ border: medium none;
 
 
 
+fieldset {
+	border: 1px solid #1F497D;
+	border-radius: 5px;
+}
+
+fieldset legend {
+    padding: 5px ;
+    border-radius: 5px;
+    background-color: #fa543d;
+    
+}
+
