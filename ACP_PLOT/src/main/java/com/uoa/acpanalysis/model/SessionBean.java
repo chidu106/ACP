@@ -14,14 +14,17 @@ import org.springframework.context.annotation.ScopedProxyMode;
 @Component
 @Scope(value = "session",  proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionBean implements Serializable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6224827856340712333L;
 
+	private static final long serialVersionUID = 6224827856340712333L;
+	
+	/*
+	 * Set of all records from the log file
+	 */
 	private List<Record> records = new ArrayList<Record>();
 	
+	/*
+	 * Records filtered in configuration page
+	 */
 	private List<Record> filteredRecords = new ArrayList<Record>();
 	
 	/*
@@ -34,10 +37,16 @@ public class SessionBean implements Serializable {
 	 */
 	private List<Date> lectureEndTime = new ArrayList<Date>();
 	
-	private int temp =8 ;
-	
+	/*
+	 * Map of users objects which contains marks and UPIDS
+	 */
 	private Map<String, User> users = new HashMap<String, User>();
-
+	
+	/*
+	 * List of test/Assignment names
+	 */
+	private List<String> namesOfTest;
+	
 	public List<Record> getRecords() {
 		return records;
 	}
@@ -45,14 +54,6 @@ public class SessionBean implements Serializable {
 	public void setRecords(List<Record> records) {
 		this.records = records;
 	}
-
-	public int getTemp() {
-		return temp;
-	}
-
-	public void setTemp(int temp) {
-		this.temp = temp;
-	}	
 	
 	public List<Date> getLectureStartTime() {
 		return lectureStartTime;
@@ -84,6 +85,14 @@ public class SessionBean implements Serializable {
 
 	public void setFilteredRecords(List<Record> filteredRecords) {
 		this.filteredRecords = filteredRecords;
+	}
+
+	public List<String> getNamesOfTest() {
+		return namesOfTest;
+	}
+
+	public void setNamesOfTest(List<String> namesOfTest) {
+		this.namesOfTest = namesOfTest;
 	}
 
 }

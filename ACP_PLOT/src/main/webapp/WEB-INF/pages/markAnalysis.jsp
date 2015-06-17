@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html lang=''>
 <head>
@@ -30,8 +31,19 @@
 	var improvementSeriesList;
 	var userByCategory;
 	 var selected;
-	
-	//Colour Picker
+	 
+	 var testNames = new Array();
+	 <c:forEach items="${testNames}" var="item">
+	     var testName = '${item}';
+	     testNames.push(testName);
+	 </c:forEach>
+	 $( document ).ready(function() {
+	 var options = '';
+	 $.each(testNames, function(index, item) {
+         options += '<option value="' + item + '">' + item + '</option>';
+         $("#selectBox").html(options);
+     });
+	 });
 		
 		function doAjaxPost() {
 			// get the form values
@@ -406,7 +418,7 @@
 									"<input id='element_catg"+categoryCounter+"_2' name='element_catg"+categoryCounter+"_2' class='element text medium' type='text' maxlength='255' value='' />"+
 								"</div>"+
 							 "</li>"+
-							 "<li id='li_catg"+categoryCounter+"_3'><label class='description' for='element_catg"+categoryCounter+"_3'>Threshold %(of Total usage)</label>"+
+							 "<li id='li_catg"+categoryCounter+"_3'><label class='description' for='element_catg"+categoryCounter+"_3'>Atleast (x) %(of Total usage)</label>"+
 								"<div>"+
 									"<input id='element_catg"+categoryCounter+"_3' name='element_catg"+categoryCounter+"_3' class='element text medium' type='text' maxlength='255' value='' />"+
 								"</div>"+
@@ -647,7 +659,9 @@
 							<input id="element_4_2" name="element_4_2"
 								class="element text medium" type="text" maxlength="255" value="" />
 						</div></li>
-
+					
+					<select id="selectBox"> <select>
+					
 					<li class="buttons"><input type="hidden" name="form_id"
 						value="1002984" /> <input id="saveForm" class="button_text"
 						type="submit" name="submit" value="Submit" onclick="doAjaxPost()" /></li>

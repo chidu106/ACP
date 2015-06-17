@@ -378,10 +378,11 @@ function submitMarksLectureTime(){
 	//$.post( "/SpringMVC/configuration/marksLectureTimes" , JSON.stringify(lectureTimesMarkWrapper), null, "json");
     $.ajax({
         type: "post",
-        url: "/SpringMVC/configuration/marksLectureTimes", //your valid url
-        contentType: "application/json", //this is required for spring 3 - ajax to work (at least for me)
+        url: "/SpringMVC/configuration/marksLectureTimes",
+        contentType: "application/json", 
         data: JSON.stringify(lectureTimesMarkWrapper), //json object or array of json objects
         success: function(result) {
+        	//On succesful post rediredct to dailyUsage page!!
         	window.location.href = '/SpringMVC/dailyUsage';
         },
         error: function(){

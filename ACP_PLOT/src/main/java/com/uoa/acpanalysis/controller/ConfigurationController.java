@@ -71,8 +71,25 @@ public class ConfigurationController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/configuration/marksLectureTimes",method=RequestMethod.POST)
     public String addMarksLectureTimes(@RequestBody LectureTimesMarkWrapper lectureTimesMarkWrapper) throws ParseException{
-    	//sessionBean.setFilteredRecords(recordWrapper.getFilteredList()); 
-    	return "dailyUsage";
+    	// Setting the values to session beans
+		sessionBean.setLectureStartTime(Utilities.getDate(lectureTimesMarkWrapper.getLectureStartTimes()));
+		sessionBean.setLectureEndTime(Utilities.getDate(lectureTimesMarkWrapper.getLectureEndTimes()));
+		sessionBean.setUsers(lectureTimesMarkWrapper.getUsers());
+		
+		//Retreiving the names of tests/Assignments
+		List<String> testNames = new ArrayList<String>();
+		
+		//Get the first element from a Map
+		Entry<String, User> entry = lectureTimesMarkWrapper.getUsers().entrySet().iterator().next();
+		User temp = (User)entry.getValue();
+		for(int i=0 ;i < temp.getMarks().size();i++){
+			testNames.add(temp.getMarks().get(i).getName());
+		}
+		
+		//Add names of the tests to session
+		sessionBean.setNamesOfTest(testNames);
+		
+		return "dailyUsage";
     }
     
    

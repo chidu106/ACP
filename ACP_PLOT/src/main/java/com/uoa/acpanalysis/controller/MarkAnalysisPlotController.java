@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.uoa.acpanalysis.Utilities.Utilities;
 import com.uoa.acpanalysis.model.Marks;
 import com.uoa.acpanalysis.model.Plot1;
+import com.uoa.acpanalysis.model.SessionBean;
 import com.uoa.acpanalysis.model.User;
 import com.uoa.acpanalysis.model.formdata.GroupingCategory;
 import com.uoa.acpanalysis.model.formdata.markAnalysis;
@@ -34,6 +36,10 @@ import com.uoa.acpanalysis.wrapper.Series;
 @Controller
 /*@RequestMapping("/firstplot")*/
 public class MarkAnalysisPlotController {
+	
+	
+	@Autowired
+	SessionBean sessionBean;
 	
 	private   ArrayList<Date> se701startTimes = new ArrayList<Date>();
 	private   ArrayList<Date> se701endTimes = new ArrayList<Date>();
@@ -50,8 +56,7 @@ public class MarkAnalysisPlotController {
 
 	@RequestMapping(value="/markAnalysis",method = RequestMethod.GET)
 	public String printWelcomefirst(ModelMap model) {
-
-		model.addAttribute("message", "Spring 3 MVC Hello World");
+		model.addAttribute("testNames", sessionBean.getNamesOfTest());
 		return "markAnalysis";
 
 	}
@@ -106,13 +111,14 @@ public class MarkAnalysisPlotController {
         /////////////////////////////////////////////////
         ACPReader acpReader = new ACPReader();
 		
+        //TODO Remove COnfidential!!
 		acpReader.parse("Second.txt");
 		acpReader.parseMarksTest("example_marks.txt");
 		acpReader.setLectureTimes();
 		
 		Map<String, List<User>> userByCategory = acpReader.getUsageCategory(markAnalysis.getCategories());
 		
-		// Need to write logic to find this
+		// TODO Need to write logic to find this
 		int numberOfMarks = 2;
 		List<List<Series>> listOfSeriesList = new ArrayList<List<Series>>();		
 		for (int i = 0; i < numberOfMarks; i++) {

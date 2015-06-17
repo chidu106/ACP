@@ -84,9 +84,7 @@ public class FileUploadController {
                 ACPReader acpReader = new ACPReader();
                 records = acpReader.parseNew(bytes);
                 sessionBean.setRecords(records);
-                sessionBean.setTemp(6);
-                System.out.println(sessionBean.getTemp());
-                               
+                                   
                 return "configuration";
             } catch (Exception e) {
                 return "You failed to upload " + name + " => " + e.getMessage();
