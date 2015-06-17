@@ -59,3 +59,10 @@ ul,li
 list-style-type: none;
 }
 
+#submitScoresDate {
+	margin-left: 15%;
+	width: 70%;
+	padding: 1%;
+	
+}
+

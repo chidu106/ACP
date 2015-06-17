@@ -19,6 +19,8 @@
 <body>
 
 	<div id="dataFilter" >
+	    	<div style="padding-top: 10px;"><b> Data Filter</b></div>
+	
     	<div style="width: 100%">
       		<select id="universitySelect" multiple="multiple"></select>
       		<select id="usernameSelect" multiple="multiple"></select>
@@ -29,7 +31,7 @@
 
     <div id="csvUpload" >
         Upload CSV Data: 
-        <input id="scoresFile" type="file" style="display: inline" onchange="getScoresFile(this.files)">
+        <input id="scoresFile" type="file" style="display: inline" onchange="loadScoresFile(this.files)">
     </div>
     <div id = "studTable" >
 	    <div >
@@ -58,11 +60,10 @@
 	</div>
 	
 	<fieldset id="fieldsetId"> 
-	<legend style=' padding: 0.2em 0.5em; border:1px solid green; color:white; font-size:90%;'><b>Category "+categoryCounter+" </b></legend>
 	<span><p>Add the lecture times of this course.</p></span>  
-    <div  id ="lectureTimes" ></div>
+    <div ><ul id ="lectureTimes"></ul></div>
     </fieldset>
-<!--     <div  id ="lectureTimeAdd" class="ui-icon ui-icon-plus addRow" onClick="addTime('lectureTimes');" >Add Lecture Time +</div>; -->
+    <br>
 	<div id="lectureTimeAdd" class="ui-icon ui-icon-plus addRow">
 		<table>
 			<tr>
@@ -75,6 +76,10 @@
 			</tr>
 		</table>
 	</div>
+	<br>
+	
+	<div id ="submitScoresDate" style="padding-top: 10px;">Submit Scores and Lecture Timings <input type="button" value="Submit" onclick="submitMarksLectureTime();" style="display: inline; margin-top:20 px" /></div>
+
 
 
 

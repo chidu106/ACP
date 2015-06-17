@@ -28,6 +28,7 @@ import com.uoa.acpanalysis.model.Plot1;
 import com.uoa.acpanalysis.model.SessionBean;
 import com.uoa.acpanalysis.model.User;
 import com.uoa.acpanalysis.model.formdata.GroupingCategory;
+import com.uoa.acpanalysis.model.formdata.LectureTimesMarkWrapper;
 import com.uoa.acpanalysis.model.formdata.RecordWrapper;
 import com.uoa.acpanalysis.model.formdata.markAnalysis;
 import com.uoa.acpanalysis.reader.ACPReader;
@@ -55,6 +56,8 @@ public class ConfigurationController {
 	@RequestMapping(value="/configuration/filteredRecords",method=RequestMethod.POST,produces = "application/json")
     public @ResponseBody HashMap addFilterdRecords(@RequestBody RecordWrapper recordWrapper) throws ParseException{
     	sessionBean.setFilteredRecords(recordWrapper.getFilteredList()); 
+    	
+    	//Not required!!
     	HashMap model = new HashMap(); 
         return model;
     }
@@ -64,6 +67,13 @@ public class ConfigurationController {
 	public String getUploadPage(ModelMap model) {
 		return "configuration";
 	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/configuration/marksLectureTimes",method=RequestMethod.POST)
+    public String addMarksLectureTimes(@RequestBody LectureTimesMarkWrapper lectureTimesMarkWrapper) throws ParseException{
+    	//sessionBean.setFilteredRecords(recordWrapper.getFilteredList()); 
+    	return "dailyUsage";
+    }
     
    
 	

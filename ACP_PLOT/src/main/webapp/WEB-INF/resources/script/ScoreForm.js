@@ -1,6 +1,8 @@
 ﻿var tempSelectedRecords;
 var list;
 $( document ).ready(function() {
+
+//Onload do a ajax call and retrieve the records
 $.ajax({
 	type : "POST",
 	url : "/SpringMVC/configuration",	
@@ -55,6 +57,71 @@ function newExtraUser(scores) {
     r += "</tr>";
     return r;
 }
+
+//For Loading and Merging the UPID from from File and the filter
+function loadScoresFile(files) {
+    var file = files[0];
+    if (file) {
+        if (window.FileReader) {
+            var reader = new window.FileReader();
+            reader.onload = function(e) {
+                var content = e.target.result,
+                    students = content.split('\r\n'), // String Split by CR LF
+                    rows = '',
+                    rowsDiscarded = false;
+                var $usersRows =
+                    $('#filteredStudents')
+                        .add('#extraStudents')
+                        .children();
+                var usernames = $.map($usersRows.children(':first-child'),
+                    function(item) {
+                        var $item = $(item);
+                        var text = $item.text();
+                        return (text ? text : $item.children().val()).toLowerCase();
+                    });
+                var $extraStudents = $('#extraStudents');
+                
+                for (var i = 0, len = students.length; i < len; i++) {
+                    var student = students[i];
+                    if (student) {
+                        var scores = student.split(',');
+                        if (scores.length - 1 === colCount) {
+                            var index = usernames.indexOf(scores[0].toLowerCase());
+                            if (index !== -1) {
+                                var $scoreInputs = $usersRows.eq(index).children(':not(:first-child)').children();
+                                for (var j = 0, lenj = $scoreInputs.length; j < lenj; j++) {
+                                    $scoreInputs.eq(j).val(scores[j + 1]);
+                                }
+                            }
+                            else {
+                                var row = $(newExtraUser(scores));
+                                $extraStudents.append(row);
+                                $usersRows.add(row);
+                                usernames.push(scores[0].toLowerCase());
+                            }
+                        }
+                        else {
+                            rowsDiscarded = true;
+                        }
+                    }
+                }
+                if (rowsDiscarded) {
+                    alert('Some records do not match the existing format and have been discarded. ' +
+                        'Please correct and reupload the file');
+                }
+            };
+            reader.readAsText(file);
+        }
+        else {
+            alert('File Reader not supported in your browser.');
+        }
+    }
+    else {
+        alert('Failed to load file');
+    }
+    //files[0]
+}
+
 
 function getScoresFile(files) {
     var file = files[0];
@@ -259,4 +326,66 @@ function addTime(divName){
 						"</li>";						
 						document.getElementById(divName).appendChild(newdiv);
 						showTime();		
+}
+
+function submitMarksLectureTime(){
+
+	// Logic to get the scores
+	var user_scores = getScores();
+	var users = {};	
+	// The first row contains the titles of the tests/Assignments
+	var titles = user_scores[0];	
+	for (var i=1; i<user_scores.length; i++){
+		var user = new Object();
+		user.marks=[];
+		var row = user_scores[i];
+		// First element in the row is User Id
+		user.userId=row[0];
+		//Corresponds to Mark object in server side
+		
+		for (var j=1; j<row.length;j++){
+			var mark = new Object();
+			mark.name = titles[j];
+			mark.marks = parseFloat(row[j]);
+			user.marks.push(mark);
+		}		
+		
+		//Of the form Map<String, User> users
+		users[user.userId] = user;
+	}
+	
+	
+	//Logic to get the Lecture times
+	var lectureStartTimes = [];
+	var lectureEndTimes = [];	    
+    $('#lectureTimes').find('li').each(function(){	    	
+        var current = $(this).find('input');
+        if(current != null) {
+        	var lectureStart = $(current).eq(0).val();
+	    	var lectureEnd = $(current).eq(1).val();
+	    	lectureStartTimes.push(lectureStart);
+	    	lectureEndTimes.push(lectureEnd);
+        }	        
+    });
+    
+    //Setting the values to wrapper
+	var lectureTimesMarkWrapper = new Object();
+	lectureTimesMarkWrapper.users = users;
+	lectureTimesMarkWrapper.lectureStartTimes = lectureStartTimes;
+	lectureTimesMarkWrapper.lectureEndTimes = lectureEndTimes;
+
+
+	//$.post( "/SpringMVC/configuration/marksLectureTimes" , JSON.stringify(lectureTimesMarkWrapper), null, "json");
+    $.ajax({
+        type: "post",
+        url: "/SpringMVC/configuration/marksLectureTimes", //your valid url
+        contentType: "application/json", //this is required for spring 3 - ajax to work (at least for me)
+        data: JSON.stringify(lectureTimesMarkWrapper), //json object or array of json objects
+        success: function(result) {
+        	window.location.href = '/SpringMVC/dailyUsage';
+        },
+        error: function(){
+            alert('failure');
+        }
+    });
 }

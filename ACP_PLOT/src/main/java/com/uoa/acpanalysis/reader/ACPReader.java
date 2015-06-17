@@ -984,6 +984,7 @@ public class ACPReader {
 		return newRecords;
 	}
 	
+	// Guess this method is not used!!
 	public  List getUsageVsMarksByStudent(){
 		
 		Map<String, float[]> user = countOccurrences(records);
@@ -1007,6 +1008,7 @@ public class ACPReader {
 		return markVsUsageList;
 	}
 	
+	//This should not also not be used
 	 private  Map<String, float[]> parseAndSetMarks(String file,
 			Map<String, float[]> userMap) {
 			try {
@@ -1046,7 +1048,8 @@ public class ACPReader {
 			}
 				return userMap;
 	}
-	 
+	
+	//Not used 
 	public  void parseMarks(String file){
 
 		try {
