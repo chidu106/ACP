@@ -65,16 +65,21 @@ public class TestMarkComparisionPlotController {
         @SuppressWarnings("rawtypes") 
 		HashMap model = new HashMap();
          
+     // TODO Remove Or modifiy acc to....
+        //Once logic for a radio button with lecture timings is ready..
+        setLectureTimes();
+        
         //Converting the date values from String to a Date type and setting it in marAnalaysis obj itself
         for (int i=0; i<markAnalysis.getCategories().size();i++ ) {
+        	if (!markAnalysis.getCategories().get(i).getCategoryName().equalsIgnoreCase("Lecture Time")) {
         		markAnalysis.getCategories().get(i).setStartTimesDate(Utilities.getDate(markAnalysis.getCategories().get(i).getStartTimes()));
         		markAnalysis.getCategories().get(i).setEndTimesDate(Utilities.getDate(markAnalysis.getCategories().get(i).getEndTimes()));
+        	} else {
+        		markAnalysis.getCategories().get(i).setStartTimesDate(se701startTimes);
+        		markAnalysis.getCategories().get(i).setEndTimesDate(se701endTimes);
+        	}
         }
-
-        	
-        // TODO Remove Or modifiy acc to....
-        //Once logic for a radio button with lecture timings is ready..
-        setLectureTimes();       
+       
        
         /*if(!result.hasErrors()){
             //userList.add(user);

@@ -85,8 +85,8 @@
 
 /* Top Nav */
 #topnav {
-  background: #f96e5b;
-	margin-left: 20%;
+ background: #ed1144;
+	margin-left: 10%;
     width: 80%;
 }
 #topnav ul {
@@ -96,6 +96,7 @@
   line-height: 1;
   display: block;
   zoom: 1;
+  text-align: right;
 }
 #topnav ul:after {
   content: " ";

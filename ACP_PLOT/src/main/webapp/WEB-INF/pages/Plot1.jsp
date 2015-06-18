@@ -214,44 +214,9 @@
 		}
 	</script>
 
-	<div id='topnav'>
-<ul>
-   <li class='active'><a href='#'><span>Home</span></a></li>
-   <li><a href='#'><span>File Upload</span></a></li>
-   <li><a href='#'><span>Plot Configuration</span></a></li>
-   <li class='last'><a href='#'><span>Contact</span></a></li>
-</ul>
-</div>
-
-<br><br><br><br>
-<div id='leftandcontent'>
-<div id='leftnav'>
-<ul>
-   <li class='active'><a href='#'><span>Home</span></a></li>
-   <li class='has-sub'><a href='#'><span>Usage Analysis Charts</span></a>
-      <ul>
-         <li><a href='/firstplot'><span>Chart A</span></a></li>
-         <li><a href='#'><span>Chart B</span></a></li>
-         <li class='last'><a href='#'><span>Product 3</span></a></li>
-      </ul>
-   </li>
-   <li class='has-sub'><a href='#'><span>Usage vs Marks Analysis Charts</span></a>
-      <ul>
-         <li><a href='#'><span>Company</span></a></li>
-         <li class='last'><a href='#'><span>Contact</span></a></li>
-      </ul>
-   </li>
-   <li class='has-sub'><a href='#'><span>Other Charts</span></a>
-   <ul>
-         <li><a href='#'><span>Chart A</span></a></li>
-         <li class='last'><a href='#'><span>Chart b</span></a></li>
-      </ul>
-   </li>
-   <li class='last'><a href='#'><span>xyz Chart</span></a></li>
-</ul>
-</div>
+<jsp:include page="leftandtopnav.jsp" />
 <div id="formchart">
-<div id='content'>
+<div id='content' style='margin-left:20%;'>
 	<!-- Form section -->
 
 	    <!-- Text container -->

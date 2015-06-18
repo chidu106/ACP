@@ -5,46 +5,25 @@
 <title>Upload Multiple File Request Page</title>
 <style>
 /* Elegant Aero */
+#title {
+	margin-left: 40%;
+    margin-right: 30%;
+    margin-top: 2%;
+    font: 25px Arial, Helvetica, sans-serif;
+    align:center;
+}
+
 .elegant-aero {
-    margin-left:auto;
-    margin-right:auto;
-	margin-top: 10%
+	margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 6%;
     max-width: 500px;
     background: #D2E9FF;
     padding: 20px 20px 20px 20px;
     font: 12px Arial, Helvetica, sans-serif;
     color: #666;
 }
-/* .elegant-aero h1 {
-    font: 24px "Trebuchet MS", Arial, Helvetica, sans-serif;
-    padding: 10px 10px 10px 20px;
-    display: block;
-    background: #C0E1FF;
-    border-bottom: 1px solid #B8DDFF;
-    margin: -20px -20px 15px;
-}
-.elegant-aero h1>span {
-    display: block;
-    font-size: 11px;
-}
- */
-/* .elegant-aero label>span {
-    float: left;
-    margin-top: 10px;
-    color: #5E5E5E;
-}
-.elegant-aero label {
-    display: block;
-    margin: 0px 0px 5px;
-}
-.elegant-aero label>span {
-    float: left;
-    width: 20%;
-    text-align: right;
-    padding-right: 15px;
-    margin-top: 10px;
-    font-weight: bold;
-} */
+
 .elegant-aero input[type="text"], .elegant-aero input[type="email"], .elegant-aero textarea, .elegant-aero select {
     color: #888;
     width: 70%;
@@ -91,6 +70,8 @@
 </style>
 </head>
 <body>
+<div id = 'title'>Upload Log File</div>
+
  <div class ='elegant-aero'>
     <form method="POST" action="uploadMultipleFile" enctype="multipart/form-data">
         File1 to upload: <input type="file" name="file"><br /> 

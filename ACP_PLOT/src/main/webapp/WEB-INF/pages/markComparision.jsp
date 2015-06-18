@@ -27,12 +27,18 @@
 	var categoryCounter = 0;
 	var limit = 10;
 	
-	var numberOfMarks;
-	
+	var numberOfMarks;	
 	var improvementSeriesList;
+	var title;
+	var xAxisText;
+	var yAxisText;
+	
 	var userByCategory;
 	// Variable for the radio button - Default lecture category
 	var selected;
+	
+	//Variable for setting the legend positions
+	var legend = new Object();
 	 
 	 //Populating the test names dropdown
 	 var testNames = new Array();
@@ -51,10 +57,15 @@
 		
 		function doAjaxPost() {
 			// get the form values
-			var title = $('#element_1').val();
-			var xAxisText = $('#element_2').val();
-			var yAxisText = $('#element_3').val();
-			var durationBand = $('#element_4').val();
+			title = $('#element_1').val();
+			xAxisText = $('#element_2').val();
+			yAxisText = $('#element_3').val();
+			
+			// CR : Not posting to server. Directly using it
+			legend.align = $('#element_5').val();
+			legend.verticalAlign= $('#element_6').val();
+			legend.x= parseInt($('#element_7').val());
+			legend.y= parseInt($('#element_8').val());
 			
 			var wrapperObj = new Object();
 			wrapperObj.title = title;
@@ -169,12 +180,12 @@
 						zoomType : 'xy'
 					},
 					"title" : {
-						"text" : "CHange it!! COmparision Stuff"
+						"text" : title
 					},
 					"xAxis" : {
 						title: {
 			                enabled: true,
-			                text: 'Usage '
+			                text: xAxisText
 			            },
 			            startOnTick: true,
 			            endOnTick: true,
@@ -182,7 +193,7 @@
 					},
 					"yAxis" : {
 						 "title": {
-				                "text": "change it!!"//resp.plotValues.yAxisText
+				                "text": yAxisText
 				                //align: 'center'
 				            } , 
 		            lineWidth: 1,
@@ -193,11 +204,10 @@
 		            minorTickLength: 4 
 					},
 					legend: {
-			            layout: 'vertical',
-			            align: 'left',
-			            verticalAlign: 'bottom',
-			            x: 0,
-			            y: 10,
+			            align: legend.align,
+			            verticalAlign: legend.verticalAlign,
+			            x: legend.x,
+			            y: legend.y,
 			           // floating: true,
 			            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
 			            borderWidth: 1
@@ -379,59 +389,10 @@
 		}
 	</script>
 
-	<div id='topnav'>
-		<ul>
-		  <li class='active'><a href='#'><span>Home</span></a></li>
-		  <li><a href='#'><span>File Upload</span></a></li>
-		  <li><a href='#'><span>Plot Configuration</span></a></li>
-		  <li ><a href='#'><span>Contact</span></a></li>
-		  <li class='last'><a href="javascript:formSubmit()"><span>Logout</span></a></li>
-	
-		  <c:url value="/logout" var="logoutUrl" />
-		<form action="${logoutUrl}" method="post" id="logoutForm">
-		<input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}" />
-	</form>
-	<script>
-		function formSubmit() {
-			document.getElementById("logoutForm").submit();
-		}
-	</script>
-		  
-		</ul>
-	</div>
-
-<br><br><br><br>
-<div id='leftandcontent'>
-<div id='leftnav'>
-<ul>
-   <li class='active'><a href='#'><span>Home</span></a></li>
-   <li class='has-sub'><a href='#'><span>Usage Analysis Charts</span></a>
-      <ul>
-         <li><a href='/firstplot'><span>Chart A</span></a></li>
-         <li><a href='#'><span>Chart B</span></a></li>
-         <li class='last'><a href='#'><span>Product 3</span></a></li>
-      </ul>
-   </li>
-   <li class='has-sub'><a href='#'><span>Usage vs Marks Analysis Charts</span></a>
-      <ul>
-         <li><a href='#'><span>Company</span></a></li>
-         <li class='last'><a href='#'><span>Contact</span></a></li>
-      </ul>
-   </li>
-   <li class='has-sub'><a href='#'><span>Other Charts</span></a>
-   <ul>
-         <li><a href='#'><span>Chart A</span></a></li>
-         <li class='last'><a href='#'><span>Chart b</span></a></li>
-      </ul>
-   </li>
-   <li class='last'><a href='#'><span>xyz Chart</span></a></li>
-</ul>
-</div>
-
+<jsp:include page="leftandtopnav.jsp" />
 
 <div id="formchart">
-<div id='content'>
+<div id='content' style='margin-left:20%;'>
 	<!-- Form section -->
 
 	    <!-- Text container -->
@@ -464,13 +425,7 @@
 							<input id="element_3" name="element_3"
 								class="element text medium" type="text" maxlength="255" value="" />
 						</div></li>
-					<li id="li_4"><label class="description" for="element_4">Duration Band
-					</label>
-						<div>
-							<input id="element_4" name="element_4"
-								class="element text medium" type="text" maxlength="255" value="" />
-						</div></li>
-					
+								
 					<script type="text/javascript">
 					function showColorPick() {
 						$('.picker').colpick({
@@ -612,6 +567,33 @@
 						</div>
 					</li>
 					
+					<!--Legend Positions  -->
+					<li id="li_5"><label class="description" for="element_5">Legend Position Configuration
+					</label>
+					<div id ="legendPositions">
+					<li id="li_5"><label class="description" for="element_5">Align
+					</label>
+						<div>
+							<input id="element_5" name="element_5"
+								class="element text medium" type="text" maxlength="255" value="left" />
+						</div></li>
+					<li id="li_6"><label class="description" for="element_6">Vertical Align
+							Axis text </label>
+						<div>
+							<input id="element_6" name="element_6"
+								class="element text medium" type="text" maxlength="255" value="bottom" />
+						</div></li>
+					<li id="li_7"><label class="description" for="element_7">x Axis</label>
+						<div>
+							<input id="element_7" name="element_7"
+								class="element text medium" type="text" maxlength="255" value="60" />
+						</div></li>
+					<li id="li_8"><label class="description" for="element_8">y Axis</label>
+						<div>
+							<input id="element_8" name="element_8"
+								class="element text medium" type="text" maxlength="255" value="0" />
+						</div></li>
+					</div>
 					<li class="buttons"><input type="hidden" name="form_id"
 						value="1002984" /> <input id="saveForm" class="button_text"
 						type="submit" name="submit" value="Submit" onclick="doAjaxPost()" /></li>

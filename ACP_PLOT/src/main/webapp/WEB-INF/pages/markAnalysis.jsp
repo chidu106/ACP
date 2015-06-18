@@ -245,12 +245,11 @@
 		            minorTickLength: 4 */
 					},
 					legend: {
-			            layout: 'vertical',
 			            align: 'left',
-			            verticalAlign: 'top',
-			            x: 100,
-			            y: 70,
-			            floating: true,
+			            verticalAlign: 'bottom',
+			            x: 50,
+			            //y: 10,
+			           // floating: true,
 			            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
 			            borderWidth: 1
 			        },
@@ -327,12 +326,11 @@
 		            minorTickLength: 4 */
 					},
 					legend: {
-			            layout: 'vertical',
 			            align: 'left',
-			            verticalAlign: 'top',
-			            x: 100,
-			            y: 70,
-			            floating: true,
+			            verticalAlign: 'bottom',
+			            x: 50,
+			            //y: 10,
+			           // floating: true,
 			            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
 			            borderWidth: 1
 			        },
@@ -496,7 +494,7 @@
 
 
 <div id="formchart">
-<div id='content'>
+<div id='content' style='margin-left:20%;'>
 	<!-- Form section -->
 
 	    <!-- Text container -->
