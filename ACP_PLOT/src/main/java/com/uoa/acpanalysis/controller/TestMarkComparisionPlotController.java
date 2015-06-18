@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.uoa.acpanalysis.Utilities.Utilities;
 import com.uoa.acpanalysis.model.Marks;
 import com.uoa.acpanalysis.model.Plot1;
+import com.uoa.acpanalysis.model.SessionBean;
 import com.uoa.acpanalysis.model.User;
 import com.uoa.acpanalysis.model.formdata.GroupingCategory;
 import com.uoa.acpanalysis.model.formdata.markAnalysis;
@@ -32,8 +34,10 @@ import com.uoa.acpanalysis.wrapper.ParentWrapper;
 import com.uoa.acpanalysis.wrapper.Series;
 
 @Controller
-/*@RequestMapping("/firstplot")*/
 public class TestMarkComparisionPlotController {
+	
+	@Autowired
+	SessionBean sessionBean;
 	
 	private   ArrayList<Date> se701startTimes = new ArrayList<Date>();
 	private   ArrayList<Date> se701endTimes = new ArrayList<Date>();
@@ -49,9 +53,8 @@ public class TestMarkComparisionPlotController {
 	private   SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@RequestMapping(value="/markComparision",method = RequestMethod.GET)
-	public String printWelcomefirst(ModelMap model) {
-
-		model.addAttribute("message", "Spring 3 MVC Hello World");
+	public String printWelcomefirst(ModelMap model){
+		model.addAttribute("testNames", sessionBean.getNamesOfTest());
 		return "markComparision";
 
 	}
@@ -71,22 +74,7 @@ public class TestMarkComparisionPlotController {
         	
         // TODO Remove Or modifiy acc to....
         //Once logic for a radio button with lecture timings is ready..
-        setLectureTimes();
-       GroupingCategory catg1 = new GroupingCategory();
-       catg1.setStartTimesDate(se701startTimes);
-       catg1.setEndTimesDate(se701endTimes); 
-       catg1.setCategoryName("LectureTime");
-       catg1.setThreshold(15);
-       catg1.setPercentageValue(10);
-       markAnalysis.getCategories().add(catg1); 
-       
-/*       GroupingCategory catg2 = new GroupingCategory();
-       catg2.setStartTimesDate(ownStartTimes);
-       catg2.setEndTimesDate(ownEndTimes); 
-       catg2.setCategoryName("OwnTime");
-       catg2.setThreshold(20);
-       catg2.setPercentageValue(25);
-       markAnalysis.getCategories().add(catg2); */
+        setLectureTimes();       
        
         /*if(!result.hasErrors()){
             //userList.add(user);

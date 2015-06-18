@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html lang=''>
 <head>
@@ -30,7 +31,23 @@
 	
 	var improvementSeriesList;
 	var userByCategory;
-	//Colour Picker
+	// Variable for the radio button - Default lecture category
+	var selected;
+	 
+	 //Populating the test names dropdown
+	 var testNames = new Array();
+	 <c:forEach items="${testNames}" var="item">
+	     var testName = '${item}';
+	     testNames.push(testName);
+	 </c:forEach>
+	 $( document ).ready(function() {
+	 var options = '';
+	 $.each(testNames, function(index, item) {
+         options += '<option value="' + item + '">' + item + '</option>';
+         $("#selectBox1").html(options);
+         $("#selectBox2").html(options);
+     });
+	 });
 		
 		function doAjaxPost() {
 			// get the form values
@@ -72,10 +89,28 @@
 				}
 				wrapperObj.categories.push(GroupingCategory);
 			}
+			
+			
+			//If Default category is enabled fetch its values and add it to wrapperObj.categories			 
+			  $('input[name=element_4]').click(function() {
+				  selected = $(this).val();
+				});
+			  if(selected == '1'){
+			      var inputs = $('#defaultcategory :input');
+			      var GroupingCategory = new Object();
+					GroupingCategory.categoryName =$(inputs[0]).val() ;
+					GroupingCategory.threshold =$(inputs[1]).val() ;
+					GroupingCategory.percentageValue =$(inputs[2]).val() ;
+					wrapperObj.categories.push(GroupingCategory);
+			  } 
+								
+			//Retreive the various grouping category combinations and set them in wrapperObj
+			var categoryColorCodes = getCategoryCombinations();
+			wrapperObj.categoryColorCodes = categoryColorCodes;
 				
 			$.ajax({
 				type : "POST",
-				url : "/SpringMVC/markComparision",
+				url : "/ACPAnalysis/markComparision",
 			      contentType : 'application/json; charset=utf-8',
 			      dataType : 'json',
 			      data: JSON.stringify(wrapperObj), 
@@ -95,11 +130,22 @@
 					alert('Error: ' + e);
 				}
 			});
-		}
-		/////////////////////////////////////////////////////
-
+		}	
 		
-		///////////////////////////////////////////////////	
+		function getCategoryCombinations() {
+		   var allRows = $('#generatedComb');
+		   var catgCombiMap = new Object();
+		   var allRowsTr = $(allRows).children('tr');
+		   for (var i=0; i<allRowsTr.length;i++ ){
+			   var inputFields = $(allRowsTr[i]).find('input');
+			   var valueArray=[];
+			   valueArray[0] = $(inputFields[1]).val() ;
+			   valueArray[1] = $(inputFields[2]).val() ;
+			   var key = $(inputFields[0]).val();
+			   catgCombiMap[key] = valueArray;			   
+		   }
+		   return catgCombiMap;
+		}
 				
 		function drawChartComparision(improvementSeriesList) {
 			$(function() {
@@ -205,32 +251,6 @@
 			$('#generatedTable').empty();
 		    $("#generatedTable").append(tableCode);
 		}
-								
-		
-		function addInput(divName){
-		     if (counter == limit)  {
-		          alert("You have reached the limit of adding " + counter + " inputs");
-		     }
-		     else {
-		          var newdiv = document.createElement('div');
-		          newdiv.innerHTML = "<li><label class='description'>Plot Band From Time "+counter+
-					"</label><div><input name='plotbandFrom[]' class='element text medium' type='text' maxlength='255' value='' /></div></li>"+
-					
-					"<li><label class='description'>Plot Band To Time "+counter+
-					"</label><div><input name='plotbandTo[]' class='element text medium' type='text' maxlength='255' value='' /></div></li>"+
-					
-					"<li><label class='description'>Plot Band Label "+counter+
-					"</label><div><input name='plotbandLabel[]' class='element text medium' type='text' maxlength='255' value='' /></div></li>"+ 
-					
-					"<li><label class='description'>Plot Band Colour "+counter+
-					"</label><div><input class='picker' name='plotbandColour[]' type='text'/></div></li>";
-		          document.getElementById(divName).appendChild(newdiv);
-		          showColorPick();
-		          counter++;
-		         
-		     }
-		     
-		}
 		
 		function addTime(divName){
 			var newdiv = document.createElement('div');
@@ -244,14 +264,27 @@
 		     }
 			newdiv.id = divName+"time_"+timeCount;
 			newdiv.innerHTML = "<li id='li_"+newdiv.id+"'>"+
-									"<label class='description' for='element_"+newdiv.id+"_start'>Start Time "+timeCount+" </label> "+ 
-									"<span> <input id='element_"+newdiv.id+"_start' class='datetimepicker'"+
-										"name='element_"+newdiv.id+"_start' class='element text' value='' type='text'>"+
-									"</span> "+
-									"<label class='description' for='element_"+newdiv.id+"_end'>End Time "+timeCount+" </label>"+ 
-									"<span> <input id='element_"+newdiv.id+"_end' class='datetimepicker'"+
-										"name='element_"+newdiv.id+"_end' class='element text' value='' type='text'>"+
-									"</span>"+
+									"<table>"+
+										"<tr>"+
+											"<td style='border:0px'>"+
+											"<label class='description' for='element_"+newdiv.id+"_start'>Start Time "+timeCount+" </label> "+ 
+											"</td>"+
+											"<td style='border:0px'>"+
+											"<label class='description' for='element_"+newdiv.id+"_end'>End Time "+timeCount+" </label>"+
+											"</td></tr>"+
+										"<tr>"+
+											"<td style='border:0px'>"+
+											"<span> <input id='element_"+newdiv.id+"_start' class='datetimepicker'"+
+											"name='element_"+newdiv.id+"_start' class='element text' value='' type='text'>"+
+											"</span> "+
+											"</td>"+
+											"<td style='border:0px'>"+
+												"<span> <input id='element_"+newdiv.id+"_end' class='datetimepicker'"+
+											"name='element_"+newdiv.id+"_end' class='element text' value='' type='text'>"+
+												"</span>"+
+											"</td></tr>"+
+									"<tr>"+
+									"</table>"+
 								"</li>";
 								
 								document.getElementById(divName).appendChild(newdiv);
@@ -263,7 +296,8 @@
 			var newdiv = document.createElement('div');
 			newdiv.id="category_"+categoryCounter;
 			var newid = newdiv.id;
-			newdiv.innerHTML ="<label class='description'>Category "+categoryCounter+" </label>"+
+			newdiv.innerHTML ="<legend style=' padding: 0.2em 0.5em; border:1px solid green; color:white; font-size:90%;'><b>Category "+categoryCounter+" </b></legend>"+
+// 			"<label class='description'>Category "+categoryCounter+" </label>"+
 							"<li id='li_catg"+categoryCounter+"_1'><label class='description' for='element_catg"+categoryCounter+"_1'>Category Name</label>"+
 								"<div>"+
 									"<input id='element_catg"+categoryCounter+"_1' name='element_catg"+categoryCounter+"_1' class='element text medium' type='text' maxlength='255' value='' />"+
@@ -274,18 +308,74 @@
 									"<input id='element_catg"+categoryCounter+"_2' name='element_catg"+categoryCounter+"_2' class='element text medium' type='text' maxlength='255' value='' />"+
 								"</div>"+
 							 "</li>"+
-							 "<li id='li_catg"+categoryCounter+"_3'><label class='description' for='element_catg"+categoryCounter+"_3'>Threshold %(of Total usage)</label>"+
+							 "<li id='li_catg"+categoryCounter+"_3'><label class='description' for='element_catg"+categoryCounter+"_3'>Atleast (x) %(of Total usage)</label>"+
 								"<div>"+
 									"<input id='element_catg"+categoryCounter+"_3' name='element_catg"+categoryCounter+"_3' class='element text medium' type='text' maxlength='255' value='' />"+
 								"</div>"+
 							 "</li>"+
 							 // Plus sign on click on which new time input fields will be displayed
-							"<div class='ui-icon ui-icon-plus addRow' onClick='addTime(\""+newid+"\");' >Time+</div>";
+// 							"<div class='ui-icon ui-icon-plus addRow' onClick='addTime(\""+newid+"\");' >Time+</div>";
+							"<div class='ui-icon ui-icon-plus addRow' >"+
+							"<table >"+
+							"<tr>"+
+								"<td style='border:0px'>"+
+								"<button style='width:120px; height:30px; border:0px; background-size:cover; background-image:url(\"images/add_time.png\");' onClick='addTime(\""+newid+"\");'></button>"+
+// 									"<input type='image' src='images/add.png' alt='Add' onClick='addTime(\""+newid+"\");' style='height: 20px; width: 60px;'>"+
+								"</td>"+
+							"</tr>"+
+							"</table>"+
+							"</div>";
 					
 							document.getElementById(divName).appendChild(newdiv);
-							var temp = $("#"+newdiv.id).wrap( "<fieldset></fieldset>" );
+							var temp = $("#"+newdiv.id).wrap( "<fieldset style=' border:1px solid #1F497D '></fieldset>" );
 							
 
+		}
+		
+		//Method to find the various combinations
+		function getCombinations(chars) {
+			  var result = [];
+			  var f = function(prefix, chars) {
+			    for (var i = 0; i < chars.length; i++) {
+			      result.push(prefix +' '+ chars[i]);
+			      f(prefix +' '+ chars[i], chars.slice(i + 1));
+			    }
+			  }
+			  f('', chars);
+			  return result;
+			}		
+		
+		function generateCombinations(){
+			var categoryNames = [];
+			var categoryHtml = $("#category");
+			//Find the categories and store their names in an array
+			for (var i=1; i<=categoryCounter; i++){				
+				var catg = $(categoryHtml).find('#category_'+i).find('li').find('input');
+				var name= $(catg[0]).val() ;
+				categoryNames[i-1] = $.trim(name);
+			}
+			if(selected == '1'){
+				categoryNames[categoryCounter] = 'Lecture Time';
+			}
+			
+			var combinations = getCombinations(categoryNames);
+			
+			/////
+			var tbodycatg="";
+			for (var i =0; i<combinations.length;i++ ){
+				tbodycatg = tbodycatg +"'<tr> "+ 
+									"<td><input type='text' value ='"+combinations[i] +"' /></td> "+
+									"<td><input class='picker' type='text' value='e2f71e'/></td> "+
+									"<td><input type='text' /></td> "+
+									"</tr> '";
+			}	
+			
+			// Append the generated combinations to the tbody
+			$('#generatedComb')
+            .empty()
+            .append(tbodycatg);
+			showColorPick();
+			$('#combinationTable').show();
 		}
 	</script>
 
@@ -381,11 +471,6 @@
 								class="element text medium" type="text" maxlength="255" value="" />
 						</div></li>
 					
-					<div id="dynamicInputPlotBand">
-				        						
-				     </div>
-				     <input type="button" value="Add Plotband values" onClick="addInput('dynamicInputPlotBand');"/>	
-					
 					<script type="text/javascript">
 					function showColorPick() {
 						$('.picker').colpick({
@@ -413,19 +498,124 @@
 					
 					<br><br>
 					<div class="legend">
-					<label class="description">Grouping Category Definition</label>
+						<label class="description">Grouping Category Definition</label>
 					</div>
 					
 					<fieldset>
-					<div id = 'category'>			
-					
+					<div id = 'category'>	
+						<li id="li_4" >
+						<label class="description" for="element_8">Default Category : Lecture Hours</label>
+						<span>Select Yes if you want all lecture hours combined as one category </span>
+							<span>
+								<input id="element_4_1" name="element_4" class="element radio" type="radio" value="1" />
+								<label class="choice" for="element_4_1">Yes</label>
+								<div id ="defaultcategoryDiv">	
+									<ul id = "defaultcategory">							  	
+										<li id='li_catgdefault_1'><label class='description' for='element_catgdefault_1'>Category Name</label>
+											<div>
+												<input id='element_catgdefault_1' name='element_catgdefault_1' class='element text medium' type='text' maxlength='255' value='Lecture Time'  disabled/>
+											</div>
+										 </li>
+										 <li id='li_catgdefault_2'><label class='description' for='element_catgdefault_2'>Minimum Threshold</label>
+											<div>
+												<input id='element_catgdefault_2' name='element_catgdefault_2' class='element text medium' type='text' maxlength='255' value='15' />
+											</div>
+										 </li>
+										 <li id='li_catgdefault_3'><label class='description' for='element_catgdefault_3'>Threshold %(of Total usage)</label>
+											<div>
+												<input id='element_catgdefault_3' name='element_catgdefault_3' class='element text medium' type='text' maxlength='255' value='20' />
+											</div>
+										 </li>
+										 </ul>
+								</div>
+								<input id="element_4_2" name="element_4" class="element radio" type="radio" value="2" checked="checked" />
+								<label class="choice" for="element_4_2">No</label>
+							</span> 
+						</li>				
 					</div>
-					</fieldset>					
-					<div id="categoryAdd" class="ui-icon ui-icon-plus addRow" onClick="addCategory('category');" >Add category +</div>
-
+						
+					<script>
+					$( document ).ready(function() {
+					$('input[name=element_4]').change(function() {
+						  selected = $(this).val();
+						  if(selected == '1'){
+						      $('#defaultcategory').show();
+						  } else {
+						      $('#defaultcategory').hide();
+						  }
+						});
+					//Setting the default checked value for radio button
+					var radioObj = $('input[name=element_4]');
+					radioObj.filter('[value=2]').prop('checked', true);
+					
+					 selected = $('input[name=element_4]:checked').val();
+					  if(selected == '1'){
+					      $('#defaultcategory').show();
+					  } else {
+					      $('#defaultcategory').hide();
+					  }	
+					});
+								
+					</script>
+								
+					<div id="categoryAdd" class="ui-icon ui-icon-plus addRow"  >
+						<table >
+						<tr>
+							<td style="border:0px">
+								<button style="width:120px;height:30px;border:0px;background-size: cover;background-image: url('images/add_category.png');" onClick="addCategory('category');">
+								</button>
+<!-- 								<input type="image" src="images/add.png" alt="Add" onClick="addCategory('category');" style="height: 20px; width: 60px;"> -->
+							</td>
+						</tr>
+						</table>						
+					</div>
+					</fieldset>
+					<script>
+						function openRefUrl() {
+						    window.open("http://api.highcharts.com/highcharts#series%3Cscatter%3E.marker.symbol", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=600, width=800, height=700");
+						}
+					</script>
+					<div><p>After adding the categories click on Generate Combinations to generate the various combinations of categories & enter the corresponding configuration. </p></div>
+					
+					<div id ="combinationTable">
+						<table id="combiTable" class="table">
+					        <thead style="background-color: #eee">
+					            <tr>
+					                <td style="font-weight: bold">Category</td>
+					                <td style="font-weight: bold">Color</td>
+					                <td style="font-weight: bold;font-style: italic; cursor: pointer;" onClick = "openRefUrl();">Symbol(Click for Details)</td>
+					            </tr>
+					        </thead>
+					        <tbody id="generatedComb"></tbody>					        
+					    </table>
+					</div>
+										
+					<li class="buttons"><input type="hidden" name="form_id"
+						value="1002989" /> <input id="generateComb" class="button_text"
+						type="submit" name="submit" value="Generate Combinations" onclick="generateCombinations()" />
+					</li>	
+									
+					<li id="li_4"><label class="description" for="element_4">Enter names of two Tests/Assignments for comparision of improvement with Usage
+						</label>
+					</li>	
+					<li>
+					<label class="description" for="selectBox2">Mark 1 Name </label>
+						<div>
+							<select class="element select medium" id="selectBox1"> </select>
+						</div>
+					</li>
+					
+					<li>
+					<label class="description" for="selectBox2">Mark 2 Name </label>
+						<div>
+							<select class="element select medium" id="selectBox2"> </select>
+						</div>
+					</li>
+					
 					<li class="buttons"><input type="hidden" name="form_id"
 						value="1002984" /> <input id="saveForm" class="button_text"
 						type="submit" name="submit" value="Submit" onclick="doAjaxPost()" /></li>
+					
 				</ul>
 				</div>
 				<div id="footer">

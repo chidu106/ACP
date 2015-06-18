@@ -5,7 +5,7 @@ $( document ).ready(function() {
 //Onload do a ajax call and retrieve the records
 $.ajax({
 	type : "POST",
-	url : "/SpringMVC/configuration",	
+	url : "/ACPAnalysis/configuration",	
 	success : function(response) {
 		// we have the response
 		
@@ -263,7 +263,7 @@ function submitFilteredData() {
 	//Submit the filtered list to server		
 	$.ajax({
 		type : "POST",
-		url : "/SpringMVC/configuration/filteredRecords",
+		url : "/ACPAnalysis/configuration/filteredRecords",
 	      contentType : 'application/json; charset=utf-8',
 	      dataType : 'json',
 	      data : JSON.stringify(recordWrapper),
@@ -375,15 +375,15 @@ function submitMarksLectureTime(){
 	lectureTimesMarkWrapper.lectureEndTimes = lectureEndTimes;
 
 
-	//$.post( "/SpringMVC/configuration/marksLectureTimes" , JSON.stringify(lectureTimesMarkWrapper), null, "json");
+	//$.post( "/ACPAnalysis/configuration/marksLectureTimes" , JSON.stringify(lectureTimesMarkWrapper), null, "json");
     $.ajax({
         type: "post",
-        url: "/SpringMVC/configuration/marksLectureTimes",
+        url: "/ACPAnalysis/configuration/marksLectureTimes",
         contentType: "application/json", 
         data: JSON.stringify(lectureTimesMarkWrapper), //json object or array of json objects
         success: function(result) {
         	//On succesful post rediredct to dailyUsage page!!
-        	window.location.href = '/SpringMVC/dailyUsage';
+        	window.location.href = '/ACPAnalysis/dailyUsage';
         },
         error: function(){
             alert('failure');

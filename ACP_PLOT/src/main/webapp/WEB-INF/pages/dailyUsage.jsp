@@ -104,7 +104,7 @@
 			
 			$.ajax({
 				type : "POST",
-				url : "/SpringMVC/dailyUsage",
+				url : "/ACPAnalysis/dailyUsage",
 				data : "title=" + title + 
 					   "&xAxisText=" + xAxisText+ 
 					   "&yAxisText=" + yAxisText+

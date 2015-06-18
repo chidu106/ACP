@@ -77,7 +77,7 @@
 			
 			$.ajax({
 				type : "POST",
-				url : "/SpringMVC/firstplot",
+				url : "/ACPAnalysis/firstplot",
 				data : "title=" + title + 
 					   "&xAxisText=" + xAxisText+ 
 					   "&yAxisText=" + yAxisText+

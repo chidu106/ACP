@@ -30,8 +30,10 @@
 	var numberOfMarks;	
 	var improvementSeriesList;
 	var userByCategory;
-	 var selected;
+	// Variable for the radio button - Default lecture category
+	var selected;
 	 
+	 //Populating the test names dropdown
 	 var testNames = new Array();
 	 <c:forEach items="${testNames}" var="item">
 	     var testName = '${item}';
@@ -41,7 +43,8 @@
 	 var options = '';
 	 $.each(testNames, function(index, item) {
          options += '<option value="' + item + '">' + item + '</option>';
-         $("#selectBox").html(options);
+         $("#selectBox1").html(options);
+         $("#selectBox2").html(options);
      });
 	 });
 		
@@ -105,7 +108,7 @@
 				
 			$.ajax({
 				type : "POST",
-				url : "/SpringMVC/markAnalysis",
+				url : "/ACPAnalysis/markAnalysis",
 			      contentType : 'application/json; charset=utf-8',
 			      dataType : 'json',
 			      data: JSON.stringify(wrapperObj), 
@@ -464,6 +467,9 @@
 				var name= $(catg[0]).val() ;
 				categoryNames[i-1] = $.trim(name);
 			}
+			if(selected == '1'){
+				categoryNames[categoryCounter] = 'Lecture Time';
+			}
 			
 			var combinations = getCombinations(categoryNames);
 			
@@ -546,8 +552,7 @@
 				            'dateFormat' : 'YYYY/MM/DD hh:mm'
 		        			});
 						}					
-					</script>
-					
+					</script>				
 					
 					<br><br>
 					<div class="legend">
@@ -590,7 +595,7 @@
 					<script>
 					$( document ).ready(function() {
 					$('input[name=element_4]').change(function() {
-						  var selected = $(this).val();console.log(selected);
+						  selected = $(this).val();
 						  if(selected == '1'){
 						      $('#defaultcategory').show();
 						  } else {
@@ -601,7 +606,7 @@
 					var radioObj = $('input[name=element_4]');
 					radioObj.filter('[value=2]').prop('checked', true);
 					
-					 var selected = $('input[name=element_4]:checked').val();
+					 selected = $('input[name=element_4]:checked').val();
 					  if(selected == '1'){
 					      $('#defaultcategory').show();
 					  } else {
@@ -623,7 +628,11 @@
 						</table>						
 					</div>
 					</fieldset>
-					
+					<script>
+						function openRefUrl() {
+						    window.open("http://api.highcharts.com/highcharts#series%3Cscatter%3E.marker.symbol", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=500, left=600, width=800, height=700");
+						}
+					</script>
 					<div><p>After adding the categories click on Generate Combinations to generate the various combinations of categories & enter the corresponding configuration. </p></div>
 					
 					<div id ="combinationTable">
@@ -632,7 +641,7 @@
 					            <tr>
 					                <td style="font-weight: bold">Category</td>
 					                <td style="font-weight: bold">Color</td>
-					                <td style="font-weight: bold">Symbol</td>
+					                <td style="font-weight: bold;font-style: italic; cursor: pointer;" onClick = "openRefUrl();">Symbol(Click for Details)</td>
 					            </tr>
 					        </thead>
 					        <tbody id="generatedComb"></tbody>					        
@@ -643,25 +652,23 @@
 						value="1002989" /> <input id="generateComb" class="button_text"
 						type="submit" name="submit" value="Generate Combinations" onclick="generateCombinations()" />
 					</li>	
-					
-					
-					<li id="li_4"><label class="description" for="element_4">Enter names of two Tests/Assignments for comparision with Usage
-					</label>
-					<li id="li_41"><label class="description" for="element_4_1">Test 1 Name
-					</label>
+									
+					<li id="li_4"><label class="description" for="element_4">Enter names of two Tests/Assignments for comparision of improvement with Usage
+						</label>
+					</li>	
+					<li>
+					<label class="description" for="selectBox2">Mark 1 Name </label>
 						<div>
-							<input id="element_4_1" name="element_4_1"
-								class="element text medium" type="text" maxlength="255" value="" />
-						</div></li>
-					<li id="li_42"><label class="description" for="element_4_2">Test 2 Name
-					</label>
+							<select class="element select medium" id="selectBox1"> </select>
+						</div>
+					</li>
+					
+					<li>
+					<label class="description" for="selectBox2">Mark 2 Name </label>
 						<div>
-							<input id="element_4_2" name="element_4_2"
-								class="element text medium" type="text" maxlength="255" value="" />
-						</div></li>
-					
-					<select id="selectBox"> <select>
-					
+							<select class="element select medium" id="selectBox2"> </select>
+						</div>
+					</li>
 					<li class="buttons"><input type="hidden" name="form_id"
 						value="1002984" /> <input id="saveForm" class="button_text"
 						type="submit" name="submit" value="Submit" onclick="doAjaxPost()" /></li>
