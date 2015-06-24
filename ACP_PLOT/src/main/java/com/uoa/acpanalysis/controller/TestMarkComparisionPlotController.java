@@ -98,9 +98,9 @@ public class TestMarkComparisionPlotController {
 		
 		Map<String, List<User>> userByCategory = acpReader.getUsageCategory(markAnalysis.getCategories());
 		
-		// Need to write logic to find this
+		// TODO Need to write logic to find this
 		int numberOfMarks = 2;
-			
+		
 		///////////////////////////
 		/// The two tests whom u need to plot
 		
@@ -133,7 +133,13 @@ public class TestMarkComparisionPlotController {
 		for (Map.Entry<String, List<User>> entry : userByCategory.entrySet())
 		{	
 			Series series = new Series();
-			series.name = entry.getKey().replace('+', ' ');
+			series.name = entry.getKey().replace('+', ' ').trim();
+			
+			if(markAnalysis.getCategoryColorCodes().containsKey(series.name)){
+				series.color = "#"+(String) markAnalysis.getCategoryColorCodes().get(series.name).get(0);
+				series.marker.put("symbol", markAnalysis.getCategoryColorCodes().get(series.name).get(1));
+			}
+			
 			List<User> userList = (List<User>)entry.getValue();
 			for(User user : userList){
 			    Float usageMark[] =  new Float[2];

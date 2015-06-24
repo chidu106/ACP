@@ -177,7 +177,13 @@ public class MarkAnalysisPlotController {
 		for (Map.Entry<String, List<User>> entry : userByCategory.entrySet())
 		{	
 			Series series = new Series();
-			series.name = entry.getKey().replace('+', ' ');
+			series.name = entry.getKey().replace('+', ' ').trim();
+			
+			if(markAnalysis.getCategoryColorCodes().containsKey(series.name)){
+				series.color = "#"+(String) markAnalysis.getCategoryColorCodes().get(series.name).get(0);
+				series.marker.put("symbol", markAnalysis.getCategoryColorCodes().get(series.name).get(1));
+			}
+			
 			List<User> userList = (List<User>)entry.getValue();
 			for(User user : userList){
 			    Float usageMark[] =  new Float[2];
