@@ -24,15 +24,14 @@ import com.uoa.acpanalysis.wrapper.Series;
 /*@RequestMapping("/firstplot")*/
 public class FirstPlotController {
 
-	@RequestMapping(value="/firstplot",method = RequestMethod.GET)
+	@RequestMapping(value="/engagementChart",method = RequestMethod.GET)
 	public String printWelcomefirst(ModelMap model) {
-
-		model.addAttribute("message", "Spring 3 MVC Hello World");
-		return "Plot1";
+		model.addAttribute("message", "xyz");
+		return "engagementChart";
 
 	}
 
-    @RequestMapping(value="/firstplot",method=RequestMethod.POST,produces = "application/json")
+    @RequestMapping(value="/engagementChart",method=RequestMethod.POST,produces = "application/json")
     public @ResponseBody HashMap  addUser(@RequestParam String[] plotBandColour, @RequestParam String[] plotBandFrom,@RequestParam String[] plotBandTo,@RequestParam String[] plotBandLabel, @ModelAttribute(value="plot1") Plot1 plotValues, BindingResult result){
         @SuppressWarnings("rawtypes") 
 		HashMap model = new HashMap();

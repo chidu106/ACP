@@ -17,7 +17,7 @@
    <script src="http://code.highcharts.com/highcharts.js"></script>
    <script src="http://code.highcharts.com/highcharts-more.js"></script>
    <script src="http://code.highcharts.com/modules/exporting.js"></script>
-   <title>Comparision between various marks</title>
+   <title>Comparison between various marks</title>
 </head>
 <body>
 	<script type="text/javascript">

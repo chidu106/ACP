@@ -77,7 +77,7 @@
 			
 			$.ajax({
 				type : "POST",
-				url : "/ACPAnalysis/firstplot",
+				url : "/ACPAnalysis/engagementChart",
 				data : "title=" + title + 
 					   "&xAxisText=" + xAxisText+ 
 					   "&yAxisText=" + yAxisText+

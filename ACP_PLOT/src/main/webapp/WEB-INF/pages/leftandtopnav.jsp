@@ -8,7 +8,7 @@
 		<ul>
 		   <li class='active'><a href='#'><span>Home</span></a></li>
 		   <li><a href='#'><span>File Upload</span></a></li>
-		   <li><a href='#'><span>Plot Configuration</span></a></li>
+		   <li><a href='/ACPAnalysis/uploadFile'><span>Configuration</span></a></li>
 		   <li class='last'><a href='#'><span>Contact</span></a></li>
 		   <li class='last'><a href="javascript:formSubmit()"><span>Logout</span></a></li>
 	
@@ -34,24 +34,22 @@
    <li class='active'><a href='#'><span>Home</span></a></li>
    <li class='has-sub'><a href='#'><span>Usage Analysis Charts</span></a>
       <ul>
-         <li><a href='/firstplot'><span>Chart A</span></a></li>
-         <li><a href='#'><span>Chart B</span></a></li>
-         <li class='last'><a href='#'><span>Product 3</span></a></li>
+         <li><a href='/ACPAnalysis/dailyUsage'><span>Daily Usage - Total Hits</span></a></li>
+         <li class='last'><a href='/ACPAnalysis/dailyUsage'><span>Daily Usage - Unique</span></a></li>
       </ul>
    </li>
-   <li class='has-sub'><a href='#'><span>Usage vs Marks Analysis Charts</span></a>
+   <li class='has-sub'><a href='#'><span>Performance with Usage Charts</span></a>
       <ul>
-         <li><a href='#'><span>Company</span></a></li>
-         <li class='last'><a href='#'><span>Contact</span></a></li>
+         <li><a href='/ACPAnalysis/markAnalysis'><span>Marks with Usage</span></a></li>
+         <li class='last'><a href='/ACPAnalysis/markComparision'><span>Comparison between improvement in Marks</span></a></li>
       </ul>
    </li>
-   <li class='has-sub'><a href='#'><span>Other Charts</span></a>
+   <li class='has-sub'><a href='#'><span>Engagement Charts</span></a>
    <ul>
-         <li><a href='#'><span>Chart A</span></a></li>
-         <li class='last'><a href='#'><span>Chart b</span></a></li>
-      </ul>
+           <li class='last'><a href='/ACPAnalysis/engagementChart'><span>Engagement along Timeline</span></a></li>
+     </ul>
    </li>
-   <li class='last'><a href='#'><span>xyz Chart</span></a></li>
+   <li class='last'><a href='#'><span>Other Charts</span></a></li>
 </ul>
 </div>
 </div>
